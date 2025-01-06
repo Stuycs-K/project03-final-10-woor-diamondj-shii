@@ -18,10 +18,10 @@ After all six guesses are used or a player guesses the right word, the game will
   
 # Technical Details:
 
-The word will be selected at random from a file of predetermined words. We will be using semaphores to ensure a player does not make a turn while the other player is making a turn. Guesses will be stored as strings, which involves memory allocation. We will use signal interception to alert a player if the other player quits the game with ctrl + c. Upon the conclusion of the game, the result will be stored in a file. 
+The word will be selected at random from a **file** of predetermined words. We will be using **semaphores** to ensure a player does not make a turn while the other player is making a turn. Guesses will be stored as strings, which involves memory allocation, which will then be added to a **file**. We will use **signal** interception to alert a player if the other player quits the game with ctrl + c.  
 
 Division of labor:
-- Julien: Semaphore system to create turns, game conclusion wPleasehen correct word - guessed
+- Julien: Semaphore system to create turns, game conclusion when correct word - guessed
 - Ian: Signal handling to indicate player quitting, Color-coded information about guesses
 - Ronnie: Files to choose word and store result, previous guesses displayed
 
