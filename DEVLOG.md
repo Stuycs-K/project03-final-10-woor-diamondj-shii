@@ -14,6 +14,10 @@ allowed guesses besides answers: https://gist.github.com/cfreshman/cdcdf777450c5
 
 valid answers and guesses: https://gist.github.com/dracos/dd0668f281e685bad51479e5acaadb93
 
+### 2024-01-07
+created my own branch
+made blank printBoard() and checkGuess() with correct logic
+
 ## Julien Diamond
 
 ### 2024-01-06 - Brief description
