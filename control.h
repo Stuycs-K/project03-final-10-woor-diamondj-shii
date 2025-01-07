@@ -1,3 +1,9 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/sem.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+
 #ifndef CONTROL_H
 #define CONTROL_H
 /*
