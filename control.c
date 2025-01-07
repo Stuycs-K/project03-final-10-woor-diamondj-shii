@@ -10,7 +10,8 @@ union semun {
 };
 
 int main() {
-  gameSetup();
+  //gameSetup();
+  reset();
 }
 
 void gameSetup() {
@@ -23,4 +24,10 @@ void gameSetup() {
   // create guess file
   open("guesses.txt", O_RDWR | O_CREAT | O_TRUNC, 0644);
   chmod("guesses.txt", 0666);
+}
+
+void reset() {
+  // remove semaphore
+  int semd = semget(KEY, 1, IPC_EXCL | 0644);
+  shmctl(semd, IPC_RMID, 0);
 }
