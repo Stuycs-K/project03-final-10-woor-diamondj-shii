@@ -12,6 +12,7 @@
 #include <time.h>
 #include <unistd.h>
 
+#define BUFFERSIZE 200
 //colors
 #define GRAY "\033[100m"
 #define YELLOW "\033[43m"
@@ -51,5 +52,8 @@ void checkGuess(char* guess, char* answer){
 int main(){
     printBoard();
     char* answer = "arise";
-    checkGuess("raise", answer);
+    char buffer[BUFFERSIZE];
+    printf("Enter a 5-letter word\n");
+    fgets(buffer, BUFFERSIZE - 1, stdin);
+    checkGuess("raise", buffer);
 }
