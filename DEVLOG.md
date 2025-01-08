@@ -29,5 +29,9 @@ Fixed remove semaphore function + added remove file feature, control.c now contr
 
 ## Ian Shi
 
+### 2024-01-08 (class period)
+
+Added a txt file to represent all possible answers, and made a function to generate a word from that list.
+
 ### 2024-01-06 (class period)
 Finished and uploaded proposal, began skeleton files
