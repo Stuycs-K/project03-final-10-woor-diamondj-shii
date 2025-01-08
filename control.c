@@ -1,7 +1,5 @@
 #include "control.h"
 
-#define KEY 826534
-
 union semun {
   int val;
   struct semid_ds* buf;
@@ -16,6 +14,30 @@ int main(int argc, char* argv[]) {
   }
   if (strcmp(argv[1], "setup") == 0) gameSetup();
   if (strcmp(argv[1], "reset") == 0) reset();
+}
+
+char * generateRandomWord() {
+  FILE * file = fopen("valid_answers.txt", "r");
+  srand(time(NULL));
+  int targetWord = rand() % TOTAL_ANSWERS;
+  char * word = malloc(8);
+
+  int i = 1;
+  while (fgets(word, 8, file)) {
+    if (i == targetWord) {
+      fclose(file);
+      break;
+    }
+    i++;
+
+    if (i > TOTAL_ANSWERS) {
+      printf("error: target word not found\n");
+      exit(1);
+    }
+  }
+  printf("target word: %d\n", targetWord);
+  
+  return word;
 }
 
 void gameSetup() {
