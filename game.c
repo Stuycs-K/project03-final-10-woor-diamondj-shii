@@ -19,41 +19,56 @@
 #define GREEN "\033[102m"
 #define RESET "\033[49m"
 
+int turn = 0;
+char* guessArray[6];
+
 void printBoard(){
-    for (int i = 0; i < 5; i++){
-        printf("_____\n");
+    for (int i = 0; i < 6; i++){
+        if (turn > i){
+            printf("%s", guessArray[i]);
+        }
+        else{
+            printf("_____\n");
+        }
     }
 }
 
-void checkGuess(char* guess, char* answer){
-    //print each letter
+char* checkGuess(char* guess, char* answer){
+    char* formattedGuess = {"\0"};
+    //format each letter
     for (int i = 0; i < strlen(guess); i++){
         char letter = guess[i];
-        //print green if letter is in correct spot
+        char* formattedLetter;
+        //make green if letter is in correct spot
         if (letter == answer[i]){
-            printf("%s%c%s", GREEN, letter, RESET);
+            sprintf(formattedLetter, "%s%c%s", GREEN, letter, RESET);
         }
         else{
-            //print yellow if letter is in present but in the wrong spot
+            //make yellow if letter is in present but in the wrong spot
             if (strchr(answer, letter) != NULL){
-                printf("%s%c%s", YELLOW, letter, RESET);
+                sprintf(formattedLetter, "%s%c%s", YELLOW, letter, RESET);
             }
             else{
-                //print gray if letter isn't present
+                //make gray if letter isn't present
                 if (strchr(answer, letter) != NULL){
-                    printf("%s%c%s", GRAY, letter, RESET);
+                    sprintf(formattedLetter, "%s%c%s", GRAY, letter, RESET);
                 }
             }
         }
+        strcat(formattedGuess, formattedLetter);
     }
-    printf("\n");
+    strcat(formattedGuess, "\n");
+    return formattedGuess;
 }
 
 int main(){
-    printBoard();
     char* answer = "arise";
     char buffer[BUFFERSIZE];
-    printf("Enter a 5-letter word\n");
-    fgets(buffer, BUFFERSIZE - 1, stdin);
-    checkGuess("raise", buffer);
+    for (int i = 0; i < 6; i++){
+        printBoard();
+        printf("Enter a 5-letter word\n");
+        fgets(buffer, BUFFERSIZE - 1, stdin);
+        guessArray[i] = checkGuess(buffer, answer);
+        turn++;
+    }
 }
