@@ -17,6 +17,7 @@ valid answers and guesses: https://gist.github.com/dracos/dd0668f281e685bad51479
 ### 2024-01-07
 created my own branch
 made blank printBoard() and checkGuess() with correct logic
+mostly finished looping for multiple guesses from the user
 
 ## Julien Diamond
 
