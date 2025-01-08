@@ -10,7 +10,7 @@ union semun {
 };
 
 int main() {
-  //gameSetup();
+  gameSetup();
   reset();
 }
 
@@ -28,6 +28,6 @@ void gameSetup() {
 
 void reset() {
   // remove semaphore
-  int semd = semget(KEY, 1, IPC_EXCL | 0644);
-  shmctl(semd, IPC_RMID, 0);
+  int semd = semget(KEY, 1, IPC_STAT);
+  semctl(semd, 1, IPC_RMID);
 }
