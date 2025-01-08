@@ -19,10 +19,7 @@
 #define GREEN "\033[102m"
 #define RESET "\033[49m"
 
-int turn = 0;
-char* guessArray[6];
-
-void printBoard(){
+void printBoard(char* guessArray[], int turn){
     for (int i = 0; i < 6; i++){
         if (turn > i){
             printf("%s", guessArray[i]);
@@ -34,7 +31,7 @@ void printBoard(){
 }
 
 char* checkGuess(char* guess, char* answer){
-    char* formattedGuess = {"\0"};
+    char formattedGuess[BUFFERSIZE];
     //format each letter
     for (int i = 0; i < strlen(guess); i++){
         char letter = guess[i];
@@ -59,16 +56,4 @@ char* checkGuess(char* guess, char* answer){
     }
     strcat(formattedGuess, "\n");
     return formattedGuess;
-}
-
-int main(){
-    char* answer = "arise";
-    char buffer[BUFFERSIZE];
-    for (int i = 0; i < 6; i++){
-        printBoard();
-        printf("Enter a 5-letter word\n");
-        fgets(buffer, BUFFERSIZE - 1, stdin);
-        guessArray[i] = checkGuess(buffer, answer);
-        turn++;
-    }
 }
