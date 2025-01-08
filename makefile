@@ -4,7 +4,7 @@ compile: control.o game.o
 control.o: control.c control.h
 	gcc -c control.c
 control:
-	./ctrl
+	./ctrl $(ARGS)
 game.o: game.c game.h
 	gcc -c game.c
 clean:

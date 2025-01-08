@@ -9,9 +9,13 @@ union semun {
   struct seminfo *__buf;
 };
 
-int main() {
-  gameSetup();
-  reset();
+int main(int argc, char* argv[]) {
+  if (argc == 1) {
+    printf("no args provided\n");
+    exit(1);
+  }
+  if (strcmp(argv[1], "setup") == 0) gameSetup();
+  if (strcmp(argv[1], "reset") == 0) reset();
 }
 
 void gameSetup() {
@@ -30,4 +34,7 @@ void reset() {
   // remove semaphore
   int semd = semget(KEY, 1, IPC_STAT);
   semctl(semd, 1, IPC_RMID);
+
+  // remove guess file
+  remove("guesses.txt");
 }
