@@ -5,6 +5,8 @@ control.o: control.c control.h
 	gcc -c control.c
 control:
 	./ctrl $(ARGS)
+play:
+	./game
 game.o: game.c game.h
 	gcc -c game.c
 clean:

@@ -10,16 +10,10 @@
 
 #ifndef CONTROL_H
 #define CONTROL_H
-/*
-Creates word and file to store guesses
-*/
+// Creates word and file to store guesses
 void gameSetup();
-/*
-Takes a 5-letter string, prints color-coded result
-*/
+// Takes a 5-letter string, prints color-coded result
 void checkGuess(char* word);
-/*
-removes guesses.txt and removes semaphore
-*/
+// removes guesses.txt and removes semaphore
 void reset();
 #endif
