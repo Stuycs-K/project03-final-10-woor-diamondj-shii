@@ -25,7 +25,7 @@ int main(){
     //for (int i = 0; i < 6; i++){
         printBoard(guessArray, turn);
         printf("Enter a 5-letter word\n");
-        fgets(buffer, BUFFERSIZE, stdin);
+        if (fgets(buffer, BUFFERSIZE, stdin);
         printf("%s", buffer);
         guessArray[0] = checkGuess(buffer, answer);
         turn++;

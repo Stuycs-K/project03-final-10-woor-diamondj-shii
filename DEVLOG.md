@@ -19,6 +19,10 @@ created my own branch
 made blank printBoard() and checkGuess() with correct logic
 mostly finished looping for multiple guesses from the user
 
+### 2024-01-08
+created new play.c file and changed how checkGuess and printBoard take parameters
+still getting segfault with strings somewhere
+
 ## Julien Diamond
 
 ### 2024-01-06 - Brief description
