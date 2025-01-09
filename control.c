@@ -1,6 +1,7 @@
 #include "control.h"
 
-#define KEY 826534
+#define SEMKEY 826534
+#define SHMKEY 98195187
 
 union semun {
   int val;
@@ -20,7 +21,7 @@ int main(int argc, char* argv[]) {
 
 void gameSetup() {
   // create semaphore w/ value 1
-  int semd = semget(KEY, 1, IPC_CREAT | IPC_EXCL | 0644);
+  int semd = semget(SEMKEY, 1, IPC_CREAT | IPC_EXCL | 0644);
   union semun us;
   us.val = 1;
   semctl(semd, 0, SETVAL, us);
@@ -28,11 +29,20 @@ void gameSetup() {
   // create guess file
   open("guesses.txt", O_RDWR | O_CREAT | O_TRUNC, 0644);
   chmod("guesses.txt", 0666);
+
+  // generate answer
+  // generateRandomWord()
+
+  // create shared memory
+  int shmid = shmget(SHMKEY, sizeof(int), IPC_CREAT | 0666);
+  char* answer = (char*) malloc(6 * sizeof(char));
+  answer = (char*) shmat(shmid, 0, 0);
+  strcpy(answer, "hello");
 }
 
 void reset() {
   // remove semaphore
-  int semd = semget(KEY, 1, IPC_STAT);
+  int semd = semget(SEMKEY, 1, IPC_STAT);
   semctl(semd, 1, IPC_RMID);
 
   // remove guess file
