@@ -7,5 +7,5 @@ void printBoard(char* guessArray[], int turn);
 /*
 Takes a 5-letter string, prints color-coded result
 */
-char* checkGuess(char* guess, char* answer);
+void checkGuess(char* guess, char* answer);
 #endif

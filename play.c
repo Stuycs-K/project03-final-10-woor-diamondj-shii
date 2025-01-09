@@ -22,12 +22,12 @@ int main(){
     }
     char* answer = "arise";
     char buffer[BUFFERSIZE];
-    //for (int i = 0; i < 6; i++){
+    for (int i = 0; i < 6; i++){
         printBoard(guessArray, turn);
         printf("Enter a 5-letter word\n");
-        if (fgets(buffer, BUFFERSIZE, stdin);
-        printf("%s", buffer);
-        guessArray[0] = checkGuess(buffer, answer);
+        fgets(buffer, BUFFERSIZE, stdin);
+        checkGuess(buffer, answer);
+        guessArray[0] = buffer;
         turn++;
-    //}
+    }
 }
