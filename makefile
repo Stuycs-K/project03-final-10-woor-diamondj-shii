@@ -1,13 +1,21 @@
-compile: control.o game.o
-	gcc -o ctrl control.o
-	gcc -o game game.o
+run: play
+	@./play
+
+control: ctrl
+	@./ctrl $(ARGS)
+
+compile play ctrl: play.o control.o game.o
+	@gcc -o play play.o game.o
+	@gcc -o ctrl control.o
+
+play.o: play.c game.h
+	@gcc -c play.c
+
 control.o: control.c control.h
-	gcc -c control.c
-control:
-	./ctrl $(ARGS)
-play:
-	./game
+	@gcc -c control.c
+
 game.o: game.c game.h
-	gcc -c game.c
+	@gcc -c game.c
+
 clean:
-	rm -f ctrl game *.o guesses.txt
+	@rm play ctrl *.o guess.txt
