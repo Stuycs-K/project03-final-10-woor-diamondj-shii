@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
   if (strcmp(argv[1], "reset") == 0) reset();
 }
 
-char * generateRandomWord() {
+char* generateRandomWord() {
   FILE * file = fopen("valid_answers.txt", "r");
   srand(time(NULL));
   int targetWord = rand() % TOTAL_ANSWERS;
@@ -47,8 +47,6 @@ char * generateRandomWord() {
 }
 
 void gameSetup() {
-  char * word = generateRandomWord();
-  printf("word: %s\n", word);
   // create semaphore w/ value 1
   int semd = semget(SEMKEY, 1, IPC_CREAT | IPC_EXCL | 0644);
   union semun us;
@@ -60,12 +58,13 @@ void gameSetup() {
   chmod("guesses.txt", 0666);
 
   // generate answer
-  // generateRandomWord()
+  char* word = generateRandomWord();
+  printf("word: %s\n", word);
 
-  // create shared memory
+  // create shared memory and store answer
   int shmid = shmget(SHMKEY, 6 * sizeof(char), IPC_CREAT | 0666);
   char* answer = (char*) shmat(shmid, 0, 0);
-  strcpy(answer, "hello");
+  strcpy(answer, word);
   shmdt(answer);
 }
 
