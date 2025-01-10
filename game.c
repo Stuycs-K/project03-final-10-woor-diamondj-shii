@@ -21,9 +21,11 @@
 
 void printBoard(char* guessArray[], int turn){
     for (int i = 0; i < 6; i++){
+        //print all previous guesses
         if (turn > i){
             printf("%s\n", guessArray[i]);
         }
+        //print empty lines for remaining guesses
         else{
             printf("_____\n");
         }
