@@ -26,12 +26,10 @@ int main(){
         char buffer[BUFFERSIZE] = {'\0'};
         printf("Enter a 5-letter word\n");
         fgets(buffer, BUFFERSIZE, stdin);
-        printf("first: %s\n", guessArray[0]);
         checkGuess(buffer, answer);
-        printf("first: %s\n", guessArray[0]);
         strcpy(guessArray[i], buffer);
-        printf("first: %s\n", guessArray[0]);
         turn++;
         printBoard(guessArray, turn);
     }
+    printf("You ran out of tries! The word was \"%s\".", answer);
 }

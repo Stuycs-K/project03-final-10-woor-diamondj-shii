@@ -22,7 +22,7 @@
 void printBoard(char* guessArray[], int turn){
     for (int i = 0; i < 6; i++){
         if (turn > i){
-            printf("guessArray[%d]: %s\n", i, guessArray[i]);
+            printf("%s\n", guessArray[i]);
         }
         else{
             printf("_____\n");
@@ -47,9 +47,7 @@ void checkGuess(char* guess, char* answer){
             }
             else{
                 //make background gray if letter isn't present
-                if (strchr(answer, letter) != NULL){
-                    sprintf(formattedLetter, "%s%c%s", GRAY, letter, RESET);
-                }
+                sprintf(formattedLetter, "%s%c%s", GRAY, letter, RESET);
             }
         }
         strcat(formattedGuess, formattedLetter);
