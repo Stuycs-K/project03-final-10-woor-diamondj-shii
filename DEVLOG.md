@@ -24,7 +24,7 @@ created new play.c file and changed how checkGuess and printBoard take parameter
 still getting segfault with strings somewhere
 
 ### 2024-01-09
-
+fixed segfaults in checkGuess() and printBoard(), made main game loop work with proper logic for all 6 turns in singleplayer, updated header comments
 
 ## Julien Diamond
 
