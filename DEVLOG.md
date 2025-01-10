@@ -25,7 +25,14 @@ Wrote makefile, setup() function to create semaphores and guess file, started fu
 ### 2024-01-07 (20 mins)
 Fixed remove semaphore function + added remove file feature, control.c now controllable via args `setup` and `reset`
 
-##
+### 2024-01-08 (class period)
+Starting implementing answer string stored in shared memory
+
+### 2024-01-09 (class period)
+Brainstormed restructuring of project for added complexity, will now aim for forking server that sends every two consecutive clients into a game
+
+### 2024-01-10 (20 minutes)
+`control.c` now creates and removes a string in shared memory, which is accessable by clients
 
 ## Ian Shi
 
