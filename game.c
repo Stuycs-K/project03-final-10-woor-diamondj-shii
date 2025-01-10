@@ -1,6 +1,7 @@
 #include "game.h"
 
 #define SEMKEY 826534
+#define SHMKEY 98195187
 
 union semun {
   int val;                  //used for SETVAL
@@ -22,7 +23,13 @@ int main() {
     // decrement semaphore
     semop(semd, &sb, 1);
 
+    // accessing shared data
+    char* answer = (char*) malloc(6 * sizeof(char));
+    int shmid = shmget(SHMKEY, 0, 0);
+    answer = shmat(shmid, 0, 0);
+
     // simulating turn
+    printf("answer is %s\n", answer);
     printf("taking turn (3 seconds)\n");
     sleep(3);
     printf("turn over\n");

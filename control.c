@@ -76,4 +76,8 @@ void reset() {
 
   // remove guess file
   remove("guesses.txt");
+
+  // remove shared memory
+  int shmid = shmget(SHMKEY, 0, 0);
+  shmctl(shmid, IPC_RMID, 0);
 }
