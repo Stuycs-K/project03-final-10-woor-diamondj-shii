@@ -23,6 +23,9 @@ mostly finished looping for multiple guesses from the user
 created new play.c file and changed how checkGuess and printBoard take parameters
 still getting segfault with strings somewhere
 
+### 2024-01-09
+
+
 ## Julien Diamond
 
 ### 2024-01-06 - Brief description
