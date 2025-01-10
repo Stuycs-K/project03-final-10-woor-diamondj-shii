@@ -1,4 +1,5 @@
 #include "pipe_networking.h"
+#include "game.h"
 
 int main() {
 
@@ -7,6 +8,11 @@ int main() {
 
   from_server = client_handshake( &to_server );
 
-  printf("client: to_server: %d\n", to_server);
-  printf("client: from_server: %d\n", from_server);
+  int shmkey = -1;
+  int semkey = -1;
+
+  read(from_server, &shmkey, sizeof(shmkey));
+  read(from_server, &semkey, sizeof(semkey));
+
+  runGame(semkey, shmkey);
 }

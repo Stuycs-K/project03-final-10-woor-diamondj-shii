@@ -1,8 +1,5 @@
 #include "control.h"
 
-#define SEMKEY 826534
-#define SHMKEY 98195187
-
 union semun {
   int val;
   struct semid_ds* buf;
@@ -46,9 +43,9 @@ char* generateRandomWord() {
   return shortenedWord;
 }
 
-void gameSetup() {
+void gameSetup(int shmkey, int semkey) {
   // create semaphore w/ value 1
-  int semd = semget(SEMKEY, 1, IPC_CREAT | IPC_EXCL | 0644);
+  int semd = semget(semkey, 1, IPC_CREAT | IPC_EXCL | 0644);
   union semun us;
   us.val = 1;
   semctl(semd, 0, SETVAL, us);
@@ -62,21 +59,21 @@ void gameSetup() {
   printf("word: %s\n", word);
 
   // create shared memory and store answer
-  int shmid = shmget(SHMKEY, 6 * sizeof(char), IPC_CREAT | 0666);
+  int shmid = shmget(shmkey, 6 * sizeof(char), IPC_CREAT | 0666);
   char* answer = (char*) shmat(shmid, 0, 0);
   strcpy(answer, word);
   shmdt(answer);
 }
 
-void reset() {
+void reset(int shmkey, int semkey) {
   // remove semaphore
-  int semd = semget(SEMKEY, 1, IPC_STAT);
+  int semd = semget(semkey, 1, IPC_STAT);
   semctl(semd, 1, IPC_RMID);
 
   // remove guess file
   remove("guesses.txt");
 
   // remove shared memory
-  int shmid = shmget(SHMKEY, 0, 0);
+  int shmid = shmget(shmkey, 0, 0);
   shmctl(shmid, IPC_RMID, 0);
 }
