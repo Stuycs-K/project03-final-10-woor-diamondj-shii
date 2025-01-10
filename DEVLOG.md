@@ -36,9 +36,12 @@ Brainstormed restructuring of project for added complexity, will now aim for for
 
 ## Ian Shi
 
-### 2024-01-08 (class period)
+### 2025-1-09 (at home)
+Started server stuff
+
+### 2025-01-08 (class period)
 
 Added a txt file to represent all possible answers, and made a function to generate a word from that list.
 
-### 2024-01-06 (class period)
+### 2025-01-06 (class period)
 Finished and uploaded proposal, began skeleton files
