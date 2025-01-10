@@ -26,6 +26,9 @@ still getting segfault with strings somewhere
 ### 2024-01-09
 fixed segfaults in checkGuess() and printBoard(), made main game loop work with proper logic for all 6 turns in singleplayer, updated header comments
 
+### 2024-01-10
+merged singleplayer base game to main, began combining base game with semaphore and shared memory features
+
 ## Julien Diamond
 
 ### 2024-01-06 (class period)
