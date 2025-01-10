@@ -22,7 +22,7 @@
 void printBoard(char* guessArray[], int turn){
     for (int i = 0; i < 6; i++){
         if (turn > i){
-            printf("%s", guessArray[i]);
+            printf("guessArray[%d]: %s\n", i, guessArray[i]);
         }
         else{
             printf("_____\n");
@@ -31,11 +31,11 @@ void printBoard(char* guessArray[], int turn){
 }
 
 void checkGuess(char* guess, char* answer){
-    char formattedGuess[BUFFERSIZE];
+    char formattedGuess[BUFFERSIZE] = {'\0'};
     //format each letter
     for (int i = 0; i < strlen(guess) - 1; i++){
         char letter = guess[i];
-        char formattedLetter[BUFFERSIZE];
+        char formattedLetter[BUFFERSIZE] = {'\0'};
         //make background green if letter is in correct spot
         if (letter == answer[i]){
             sprintf(formattedLetter, "%s%c%s", GREEN, letter, RESET);
@@ -54,6 +54,5 @@ void checkGuess(char* guess, char* answer){
         }
         strcat(formattedGuess, formattedLetter);
     }
-    strcat(formattedGuess, "\n");
     strcpy(guess, formattedGuess);
 }
