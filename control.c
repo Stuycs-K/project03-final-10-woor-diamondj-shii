@@ -34,10 +34,10 @@ void gameSetup() {
   // generateRandomWord()
 
   // create shared memory
-  int shmid = shmget(SHMKEY, sizeof(int), IPC_CREAT | 0666);
-  char* answer = (char*) malloc(6 * sizeof(char));
-  answer = (char*) shmat(shmid, 0, 0);
+  int shmid = shmget(SHMKEY, 6 * sizeof(char), IPC_CREAT | 0666);
+  char* answer = (char*) shmat(shmid, 0, 0);
   strcpy(answer, "hello");
+  shmdt(answer);
 }
 
 void reset() {
