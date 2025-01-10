@@ -33,20 +33,20 @@ void printBoard(char* guessArray[], int turn){
 void checkGuess(char* guess, char* answer){
     char formattedGuess[BUFFERSIZE];
     //format each letter
-    for (int i = 0; i < strlen(guess); i++){
+    for (int i = 0; i < strlen(guess) - 1; i++){
         char letter = guess[i];
         char formattedLetter[BUFFERSIZE];
-        //make green if letter is in correct spot
+        //make background green if letter is in correct spot
         if (letter == answer[i]){
             sprintf(formattedLetter, "%s%c%s", GREEN, letter, RESET);
         }
         else{
-            //make yellow if letter is in present but in the wrong spot
+            //make background yellow if letter is present but in the wrong spot
             if (strchr(answer, letter) != NULL){
                 sprintf(formattedLetter, "%s%c%s", YELLOW, letter, RESET);
             }
             else{
-                //make gray if letter isn't present
+                //make background gray if letter isn't present
                 if (strchr(answer, letter) != NULL){
                     sprintf(formattedLetter, "%s%c%s", GRAY, letter, RESET);
                 }

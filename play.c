@@ -17,17 +17,16 @@
 int main(){
     int turn = 0;
     char* guessArray[6];
-    for (int i = 0; i < 6; i++){
-        guessArray[i] = malloc(sizeof(char*));
-    }
     char* answer = "arise";
     char buffer[BUFFERSIZE];
+    printBoard(guessArray, turn);
     for (int i = 0; i < 6; i++){
-        printBoard(guessArray, turn);
         printf("Enter a 5-letter word\n");
         fgets(buffer, BUFFERSIZE, stdin);
+        printf("1");
         checkGuess(buffer, answer);
         guessArray[0] = buffer;
         turn++;
+        printBoard(guessArray, turn);
     }
 }
