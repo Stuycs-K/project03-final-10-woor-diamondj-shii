@@ -32,6 +32,9 @@ merged singleplayer base game to main, began combining base game with semaphore 
 ### 2025-01-11 & 2025-01-12
 added global game variable initialization in gameSetup() in control.c, still combining mains in play.c (35 min)
 
+### 2025-01-13
+got both clients to access shared memory, need to fix shared guessArray (class period)
+
 ## Julien Diamond
 
 ### 2024-01-06 (class period)

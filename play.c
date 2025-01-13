@@ -26,6 +26,13 @@ union semun {
 };
 
 int main() {
+  //initialize global variables
+  int* turn = (int*) malloc(sizeof(int));
+  char* answer = (char*) malloc(6 * sizeof(char));
+  char** guessArray = (char**) malloc(6 * BUFFERSIZE);
+  for (int i = 0; i < 6; i++){
+    guessArray[i] = malloc(BUFFERSIZE);
+  }
   while (1) {
     // wait to access semaphore
     printf("waiting for turn...\n");
@@ -40,25 +47,28 @@ int main() {
     int shmid;
     //access int turn
     shmid = shmget(TURNSHMKEY, sizeof(int), IPC_CREAT | 0666);
-    int* turn = shmat(shmid, 0, 0);
+    turn = shmat(shmid, 0, 0);
     //access char* answer
-    char* answer = (char*) malloc(6 * sizeof(char));
     shmid = shmget(ANSWERSHMKEY, 0, 0);
     answer = shmat(shmid, 0, 0);
     //access char** guessArray
     shmid = shmget(GUESSARRAYSHMKEY, BUFFERSIZE * 6, IPC_CREAT | 0666);
-    char** guessArray = (char**) shmat(shmid, 0, 0);
-    for (int i = 0; i < 6; i++){
-      guessArray[i] = malloc(BUFFERSIZE);
-    }
-    // simulating turn
-    printf("turn is %d\n", *turn);
-    printf("answer is %s\n", answer);
-    printf("address of guessArray is %p\n", (void*)&guessArray);
-    printf("taking turn (3 seconds)\n");
-    sleep(3);
+    guessArray = (char**) shmat(shmid, 0, 0);
+    // making turn
+    printBoard(guessArray, *turn);
+    char buffer[BUFFERSIZE] = {'\0'};
+    printf("Enter a 5-letter word\n");
+    fgets(buffer, BUFFERSIZE, stdin);
+    checkGuess(buffer, answer);
+    strcpy(guessArray[*turn], buffer);
+    //increment turn
+    *turn = *turn + 1;
+    printBoard(guessArray, *turn);
     printf("turn over\n");
-
+    //detach shared memory
+    shmdt(turn);
+    shmdt(answer);
+    shmdt(guessArray);
     // release and increment semaphore
     sb.sem_op = 1;
     semop(semd, &sb, 1);
@@ -66,16 +76,6 @@ int main() {
 }
 /*
 int main(){
-    printBoard(guessArray, turn);
-    for (int i = 0; i < 6; i++){
-        char buffer[BUFFERSIZE] = {'\0'};
-        printf("Enter a 5-letter word\n");
-        fgets(buffer, BUFFERSIZE, stdin);
-        checkGuess(buffer, answer);
-        strcpy(guessArray[i], buffer);
-        turn++;
-        printBoard(guessArray, turn);
-    }
     printf("You ran out of tries! The word was \"%s\".", answer);
 }
 */
