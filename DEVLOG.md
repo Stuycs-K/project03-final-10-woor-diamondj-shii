@@ -4,7 +4,7 @@ This document must be updated daily by EACH group member.
 
 ## Ronnie Woo
 
-### 2024-01-06 (class period)
+### 2025-01-06 (class period)
 Finished and uploaded proposal, began skeleton files
 found text files with valid wordle words that we could potentially use later
 
@@ -14,21 +14,22 @@ allowed guesses besides answers: https://gist.github.com/cfreshman/cdcdf777450c5
 
 valid answers and guesses: https://gist.github.com/dracos/dd0668f281e685bad51479e5acaadb93
 
-### 2024-01-07
+### 2025-01-07
 created my own branch
 made blank printBoard() and checkGuess() with correct logic
 mostly finished looping for multiple guesses from the user
 
-### 2024-01-08
+### 2025-01-08
 created new play.c file and changed how checkGuess and printBoard take parameters
 still getting segfault with strings somewhere
 
-### 2024-01-09
+### 2025-01-09
 fixed segfaults in checkGuess() and printBoard(), made main game loop work with proper logic for all 6 turns in singleplayer, updated header comments
 
-### 2024-01-10
+### 2025-01-10
 merged singleplayer base game to main, began combining base game with semaphore and shared memory features
 
+### 2025-01-11 & 2025-01-12
 ## Julien Diamond
 
 ### 2024-01-06 (class period)
