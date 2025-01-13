@@ -71,6 +71,11 @@ void gameSetup() {
   int* turn = shmat(shmid, 0, 0);
   *turn = 0;
   shmdt(turn);
+  //store answer
+  shmid = shmget(ANSWERSHMKEY, 6 * sizeof(char), IPC_CREAT | 0666);
+  char* answer = (char*) shmat(shmid, 0, 0);
+  strcpy(answer, word);
+  shmdt(answer);
   //store guessArray
   shmid = shmget(GUESSARRAYSHMKEY, BUFFERSIZE * 6, IPC_CREAT | 0666);
   char** guessArray = (char**) shmat(shmid, 0, 0);
@@ -78,11 +83,6 @@ void gameSetup() {
     guessArray[i] = malloc(BUFFERSIZE);
   }
   shmdt(guessArray);
-  //store answer
-  shmid = shmget(ANSWERSHMKEY, 6 * sizeof(char), IPC_CREAT | 0666);
-  char* answer = (char*) shmat(shmid, 0, 0);
-  strcpy(answer, word);
-  shmdt(answer);
 }
 
 void reset() {

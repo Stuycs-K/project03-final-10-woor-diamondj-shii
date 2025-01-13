@@ -27,29 +27,39 @@ union semun {
 
 int main() {
   while (1) {
-    // access semaphore
+    // wait to access semaphore
     printf("waiting for turn...\n");
     int semd = semget(SEMKEY, 1, 0);
     struct sembuf sb;
     sb.sem_num = 0;
     sb.sem_flg = SEM_UNDO;
     sb.sem_op = -1;
-
-    // decrement semaphore
+    // decrement semaphore once accessed
     semop(semd, &sb, 1);
-
     // accessing shared data
+    int shmid;
+    //access int turn
+    shmid = shmget(TURNSHMKEY, sizeof(int), IPC_CREAT | 0666);
+    int* turn = shmat(shmid, 0, 0);
+    //access char* answer
     char* answer = (char*) malloc(6 * sizeof(char));
-    int shmid = shmget(ANSWERSHMKEY, 0, 0);
+    shmid = shmget(ANSWERSHMKEY, 0, 0);
     answer = shmat(shmid, 0, 0);
-
+    //access char** guessArray
+    shmid = shmget(GUESSARRAYSHMKEY, BUFFERSIZE * 6, IPC_CREAT | 0666);
+    char** guessArray = (char**) shmat(shmid, 0, 0);
+    for (int i = 0; i < 6; i++){
+      guessArray[i] = malloc(BUFFERSIZE);
+    }
     // simulating turn
+    printf("turn is %d\n", *turn);
     printf("answer is %s\n", answer);
+    printf("address of guessArray is %p\n", (void*)&guessArray);
     printf("taking turn (3 seconds)\n");
     sleep(3);
     printf("turn over\n");
 
-    // increment semaphore
+    // release and increment semaphore
     sb.sem_op = 1;
     semop(semd, &sb, 1);
   }
