@@ -14,7 +14,9 @@
 
 #define BUFFERSIZE 200
 #define SEMKEY 826534
-#define SHMKEY 98195187
+#define TURNSHMKEY 712021529
+#define ANSWERSHMKEY 98195187
+#define GUESSARRAYSHMKEY 1556200266
 
 union semun {
   int val;                  //used for SETVAL
@@ -38,7 +40,7 @@ int main() {
 
     // accessing shared data
     char* answer = (char*) malloc(6 * sizeof(char));
-    int shmid = shmget(SHMKEY, 0, 0);
+    int shmid = shmget(ANSWERSHMKEY, 0, 0);
     answer = shmat(shmid, 0, 0);
 
     // simulating turn
@@ -52,14 +54,8 @@ int main() {
     semop(semd, &sb, 1);
   }
 }
-
+/*
 int main(){
-    int turn = 0;
-    char* guessArray[6];
-    for (int i = 0; i < 6; i++){
-        guessArray[i] = malloc(BUFFERSIZE);
-    }
-    char* answer = "arise";
     printBoard(guessArray, turn);
     for (int i = 0; i < 6; i++){
         char buffer[BUFFERSIZE] = {'\0'};
@@ -72,3 +68,4 @@ int main(){
     }
     printf("You ran out of tries! The word was \"%s\".", answer);
 }
+*/

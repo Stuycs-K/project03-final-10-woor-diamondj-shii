@@ -1,7 +1,10 @@
 #include "control.h"
 
+#define BUFFERSIZE 200
 #define SEMKEY 826534
-#define SHMKEY 98195187
+#define TURNSHMKEY 712021529
+#define ANSWERSHMKEY 98195187
+#define GUESSARRAYSHMKEY 1556200266
 
 union semun {
   int val;
@@ -61,8 +64,22 @@ void gameSetup() {
   char* word = generateRandomWord();
   printf("word: %s\n", word);
 
-  // create shared memory and store answer
-  int shmid = shmget(SHMKEY, 6 * sizeof(char), IPC_CREAT | 0666);
+  // create shared memory
+  int shmid;
+  //store turn
+  shmid = shmget(TURNSHMKEY, sizeof(int), IPC_CREAT | 0666);
+  int* turn = shmat(shmid, 0, 0);
+  *turn = 0;
+  shmdt(turn);
+  //store guessArray
+  shmid = shmget(GUESSARRAYSHMKEY, BUFFERSIZE * 6, IPC_CREAT | 0666);
+  char** guessArray = (char**) shmat(shmid, 0, 0);
+  for (int i = 0; i < 6; i++){
+    guessArray[i] = malloc(BUFFERSIZE);
+  }
+  shmdt(guessArray);
+  //store answer
+  shmid = shmget(ANSWERSHMKEY, 6 * sizeof(char), IPC_CREAT | 0666);
   char* answer = (char*) shmat(shmid, 0, 0);
   strcpy(answer, word);
   shmdt(answer);
@@ -77,6 +94,6 @@ void reset() {
   remove("guesses.txt");
 
   // remove shared memory
-  int shmid = shmget(SHMKEY, 0, 0);
+  int shmid = shmget(ANSWERSHMKEY, 0, 0);
   shmctl(shmid, IPC_RMID, 0);
 }
