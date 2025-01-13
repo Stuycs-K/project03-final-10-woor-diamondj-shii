@@ -30,7 +30,7 @@ fixed segfaults in checkGuess() and printBoard(), made main game loop work with 
 merged singleplayer base game to main, began combining base game with semaphore and shared memory features (class period)
 
 ### 2025-01-11 & 2025-01-12
-
+added global game variable initialization in gameSetup() in control.c, still combining mains in play.c (35 min)
 
 ## Julien Diamond
 
