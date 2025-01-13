@@ -36,6 +36,9 @@ Brainstormed restructuring of project for added complexity, will now aim for for
 
 ## Ian Shi
 
+### 2025-1-13 (class period)
+start working on interaction between server and client for exiting. worked with julien for this.
+
 ### 2025-1-10 (class period)
 accept two clients and send shmkey and semkey to them. worked with julien for this.
 
