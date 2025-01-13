@@ -52,6 +52,12 @@ Brainstormed restructuring of project for added complexity, will now aim for for
 ### 2024-01-10 (30 minutes)
 `control.c` now creates and removes a string in shared memory, which is accessable by clients; the randomly generated answer is now stored in that shared memory upon called `make control ARGS="setup"`
 
+### 2024-01-10 (class period)
+pair programmed to begin working on server/subserver and client implementation
+
+### 2024-01-13 (20 minutes)
+fixed some server-related errors
+
 ## Ian Shi
 
 ### 2025-1-09 (at home)
