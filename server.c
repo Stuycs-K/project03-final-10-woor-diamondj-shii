@@ -1,6 +1,5 @@
-#include <signal.h>
-
 #include "pipe_networking.h"
+#include "control.h"
 
 int main() {
   signal(SIGINT, handle_sigint_server);
@@ -10,7 +9,7 @@ int main() {
   int from_client1;
 
   int to_client2;
-  int frmo_client2;
+  int from_client2;
 
   while (1) {
     from_client1 = server_setup();
@@ -38,11 +37,26 @@ int main() {
 
       gameSetup(*shmkey, *semkey);
 
-      write(to_client1, *shmkey, sizeof(shmkey));
-      write(to_client2, *shmkey, sizeof(shmkey));
+      write(to_client1, shmkey, sizeof(shmkey));
+      write(to_client2, shmkey, sizeof(shmkey));
 
-      write(to_client1, *semkey, sizeof(semkey));
-      write(to_client2, *semkey, sizeof(semkey));
+      write(to_client1, semkey, sizeof(semkey));
+      write(to_client2, semkey, sizeof(semkey));
+
+      fd_set fds;
+      char buffer[100];
+      FD_ZERO(&fds);
+      FD_SET(from_client1, &fds);
+      FD_SET(from_client2, &fds);
+      select((to_client1 > to_client2 ? to_client1 : to_client2) + 1, &fds, NULL, NULL, NULL);
+
+      int EXIT = -1;
+      if(FD_ISSET(from_client1, &fds)) {
+        write(to_client2, &EXIT, sizeof(EXIT));
+      }
+      if(FD_ISSET(from_client2, &fds)) {
+        write(to_client1, &EXIT, sizeof(EXIT));
+      }
     }
   }
 }
