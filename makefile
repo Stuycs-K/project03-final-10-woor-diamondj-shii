@@ -21,4 +21,3 @@ control.o: control.c control.h
 	@gcc -c control.c
 clean:
 	@rm -f *.o client_exe server_exe *.gch
->>>>>>> origin/ian

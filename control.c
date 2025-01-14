@@ -6,22 +6,6 @@
 #define ANSWERSHMKEY 98195187
 #define GUESSARRAYSHMKEY 1556200266
 
-union semun {
-  int val;
-  struct semid_ds* buf;
-  unsigned short* array;
-  struct seminfo *__buf;
-};
-
-int main(int argc, char* argv[]) {
-  if (argc == 1) {
-    printf("no args provided\n");
-    exit(1);
-  }
-  if (strcmp(argv[1], "setup") == 0) gameSetup();
-  if (strcmp(argv[1], "reset") == 0) reset();
-}
-
 char* generateRandomWord() {
   FILE * file = fopen("valid_answers.txt", "r");
   srand(time(NULL));
@@ -72,7 +56,7 @@ void gameSetup(int shmkey, int semkey) {
   *turn = 0;
   shmdt(turn);
   //store guessArray
-  shmid = shmget(GUESSARRAYSHMKEY, BUFFERSIZE * 6, IPC_CREAT | 0666);
+  shmid = shmget(GUESSARRAYSHMKEY, BUFFERSIZE, IPC_CREAT | 0666);
   char** guessArray = (char**) shmat(shmid, 0, 0);
   for (int i = 0; i < 6; i++){
     guessArray[i] = malloc(BUFFERSIZE);

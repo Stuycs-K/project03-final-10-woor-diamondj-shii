@@ -40,6 +40,8 @@ int main() {
   read(from_server, &semkey, sizeof(semkey));
   read(from_server, &server_pid, sizeof(server_pid));
 
+  printf("client received: shmkey = %d, semkey = %d, server_pid = %d\n", shmkey, semkey, server_pid);
+
   pid_t pid = fork();
   if (pid == -1) {
     perror("client failed to fork");

@@ -21,6 +21,12 @@
 #define GREEN "\033[102m"
 #define RESET "\033[49m"
 
+int err() {
+  printf("errno %d\n", errno);
+  printf("%s\n", strerror(errno));
+  exit(1);
+}
+
 void printBoard(char* guessArray[], int turn){
     for (int i = 0; i < 6; i++){
         //print all previous guesses
@@ -61,6 +67,8 @@ void checkGuess(char* guess, char* answer){
 
 void runGame(int semkey, int shmkey) {
   while (1) {
+    printf("runGame called with semkey = %d & shmkey = %d\n", semkey, shmkey);
+
     // access semaphore
     printf("waiting for turn...\n");
     int semd = semget(semkey, 1, 0);
@@ -68,14 +76,17 @@ void runGame(int semkey, int shmkey) {
     sb.sem_num = 0;
     sb.sem_flg = SEM_UNDO;
     sb.sem_op = -1;
+    printf("semaphore accessed\n");
 
     // decrement semaphore
     semop(semd, &sb, 1);
 
     // accessing shared data
+    printf("accessing shared data...\n");
     char* answer = (char*) malloc(6 * sizeof(char));
     int shmid = shmget(shmkey, 0, 0);
     answer = shmat(shmid, 0, 0);
+    printf("shared data accessed\n");
 
     // simulating turn
     printf("answer is %s\n", answer);
