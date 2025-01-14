@@ -14,3 +14,7 @@ This is a collaborative adaptation of Wordle. A five letter word is selected at 
 The user uses `make compile` to compile the program. The game is set up with `./control`, and players take turns by running `./game`.
 
 After running `./game`, information about past guesses will be displayed, and the user will be prompted to enter the next guess. To take their next turn, the user runs `./game` again.
+
+### BUGS beatles and other insects:
+
+- breaks if first client quits before second client connects

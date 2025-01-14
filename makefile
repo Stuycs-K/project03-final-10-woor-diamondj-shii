@@ -20,4 +20,4 @@ game.o: game.c game.h
 control.o: control.c control.h
 	@gcc -c control.c
 clean:
-	@rm -f *.o client_exe server_exe *.gch
+	@rm -f *.o client_exe server_exe guesses.txt *.gch
