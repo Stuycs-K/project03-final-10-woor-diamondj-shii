@@ -14,9 +14,7 @@
 
 #define BUFFERSIZE 200
 #define SEMKEY 826534
-#define TURNSHMKEY 712021529
 #define ANSWERSHMKEY 98195187
-#define GUESSARRAYSHMKEY 1556200266
 
 union semun {
   int val;                  //used for SETVAL
@@ -27,7 +25,6 @@ union semun {
 
 int main() {
   //initialize global variables
-  int* turn = (int*) malloc(sizeof(int));
   char* answer = (char*) malloc(6 * sizeof(char));
   int win = 0;
   while (1) {
@@ -40,22 +37,17 @@ int main() {
     sb.sem_op = -1;
     // decrement semaphore once accessed
     semop(semd, &sb, 1);
-    // accessing shared data
-    int shmid;
-    //access int turn
-    shmid = shmget(TURNSHMKEY, sizeof(int), IPC_CREAT | 0666);
-    turn = shmat(shmid, 0, 0);
     //access char* answer
-    shmid = shmget(ANSWERSHMKEY, 0, 0);
+    int shmid = shmget(ANSWERSHMKEY, 0, 0);
     answer = shmat(shmid, 0, 0);
     //access guess file
     int guessFile = open("guesses.txt", O_RDWR | O_APPEND);
     // making turn
-    printBoard(*turn);
-    if (*turn >= 6){
-      printf("Game Over!\n");
-      exit(0);
-    }
+    printBoard();
+    // if (){
+    //   printf("Game Over!\n");
+    //   exit(0);
+    // }
     char buffer[BUFFERSIZE] = {'\0'};
     printf("Enter a 5-letter word\n");
     fgets(buffer, BUFFERSIZE, stdin);
@@ -65,19 +57,18 @@ int main() {
     checkGuess(buffer, answer);
     *(strchr(buffer, '\0')) = '\n';
     write(guessFile, buffer, strlen(buffer));
-    //increment turn
-    *turn = *turn + 1;
-    printBoard(*turn);
+    printBoard();
     //set turn to 6 if answer is guessed
     if (win == 1){
       printf("You guessed the word!\n");
-      *turn = 6;
       exit(0);
     }
     //detach shared memory
-    shmdt(turn);
     shmdt(answer);
     // release and increment semaphore
+    //1 - keep playing the game normally
+    //2 - player guessed the answer
+    //3 - ran out of turns
     sb.sem_op = 1;
     semop(semd, &sb, 1);
   }
