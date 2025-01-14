@@ -37,7 +37,8 @@ int main() {
       int fd = open("/dev/random", O_RDONLY);
       read(fd, shmkey, sizeof(int));
       read(fd, semkey, sizeof(int));
-      int pid = getpid();
+      *shmkey = (*shmkey < 0 ? (*shmkey * -1) : *shmkey) % 100000;
+      *semkey = (*semkey < 0 ? (*semkey * -1) : *semkey) % 100000;
 
       gameSetup(*shmkey, *semkey);
 
@@ -47,10 +48,7 @@ int main() {
       write(to_client1, semkey, sizeof(int));
       write(to_client2, semkey, sizeof(int));
 
-      write(to_client1, &pid, sizeof(int));
-      write(to_client2, &pid, sizeof(int));
-
-      printf("server sent: shmkey = %d, semkey = %d, pid = %d\n", *shmkey, *semkey, pid);
+      printf("server sent: shmkey = %d, semkey = %d\n", *shmkey, *semkey);
 
       fd_set fds;
       char buffer[100];

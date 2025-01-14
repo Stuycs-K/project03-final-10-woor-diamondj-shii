@@ -67,8 +67,6 @@ void checkGuess(char* guess, char* answer){
 
 void runGame(int semkey, int shmkey) {
   while (1) {
-    printf("runGame called with semkey = %d & shmkey = %d\n", semkey, shmkey);
-
     // access semaphore
     printf("waiting for turn...\n");
     int semd = semget(semkey, 1, 0);
@@ -76,10 +74,9 @@ void runGame(int semkey, int shmkey) {
     sb.sem_num = 0;
     sb.sem_flg = SEM_UNDO;
     sb.sem_op = -1;
-    printf("semaphore accessed\n");
-
     // decrement semaphore
     semop(semd, &sb, 1);
+    printf("semaphore accessed\n");
 
     // accessing shared data
     printf("accessing shared data...\n");

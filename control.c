@@ -1,10 +1,6 @@
 #include "control.h"
 
 #define BUFFERSIZE 200
-#define SEMKEY 826534
-#define TURNSHMKEY 712021529
-#define ANSWERSHMKEY 98195187
-#define GUESSARRAYSHMKEY 1556200266
 
 char* generateRandomWord() {
   FILE * file = fopen("valid_answers.txt", "r");
@@ -50,20 +46,8 @@ void gameSetup(int shmkey, int semkey) {
 
   // create shared memory
   int shmid;
-  //store turn
-  shmid = shmget(TURNSHMKEY, sizeof(int), IPC_CREAT | 0666);
-  int* turn = shmat(shmid, 0, 0);
-  *turn = 0;
-  shmdt(turn);
-  //store guessArray
-  shmid = shmget(GUESSARRAYSHMKEY, BUFFERSIZE, IPC_CREAT | 0666);
-  char** guessArray = (char**) shmat(shmid, 0, 0);
-  for (int i = 0; i < 6; i++){
-    guessArray[i] = malloc(BUFFERSIZE);
-  }
-  shmdt(guessArray);
   //store answer
-  shmid = shmget(ANSWERSHMKEY, 6 * sizeof(char), IPC_CREAT | 0666);
+  shmid = shmget(shmkey, 6 * sizeof(char), IPC_CREAT | 0666);
   char* answer = (char*) shmat(shmid, 0, 0);
   strcpy(answer, word);
   shmdt(answer);
@@ -78,6 +62,6 @@ void reset(int shmkey, int semkey) {
   remove("guesses.txt");
 
   // remove shared memory
-  int shmid = shmget(ANSWERSHMKEY, 0, 0);
+  int shmid = shmget(shmkey, 0, 0);
   shmctl(shmid, IPC_RMID, 0);
 }
