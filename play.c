@@ -29,10 +29,6 @@ int main() {
   //initialize global variables
   int* turn = (int*) malloc(sizeof(int));
   char* answer = (char*) malloc(6 * sizeof(char));
-  char** guessArray = (char**) malloc(6 * BUFFERSIZE);
-  for (int i = 0; i < 6; i++){
-    guessArray[i] = malloc(BUFFERSIZE);
-  }
   while (1) {
     // wait to access semaphore
     printf("waiting for turn...\n");
@@ -51,31 +47,24 @@ int main() {
     //access char* answer
     shmid = shmget(ANSWERSHMKEY, 0, 0);
     answer = shmat(shmid, 0, 0);
-    //access char** guessArray
-    shmid = shmget(GUESSARRAYSHMKEY, BUFFERSIZE * 6, IPC_CREAT | 0666);
-    guessArray = (char**) shmat(shmid, 0, 0);
+    //access guess file
+    int guessFile = open("guesses.txt", O_RDWR | O_APPEND);
     // making turn
-    printBoard(guessArray, *turn);
+    printBoard(*turn);
     char buffer[BUFFERSIZE] = {'\0'};
     printf("Enter a 5-letter word\n");
     fgets(buffer, BUFFERSIZE, stdin);
     checkGuess(buffer, answer);
-    strcpy(guessArray[*turn], buffer);
+    *(strchr(buffer, '\0')) = '\n';
+    write(guessFile, buffer, strlen(buffer));
     //increment turn
     *turn = *turn + 1;
-    printBoard(guessArray, *turn);
-    printf("turn over\n");
+    printBoard(*turn);
     //detach shared memory
     shmdt(turn);
     shmdt(answer);
-    shmdt(guessArray);
     // release and increment semaphore
     sb.sem_op = 1;
     semop(semd, &sb, 1);
   }
 }
-/*
-int main(){
-    printf("You ran out of tries! The word was \"%s\".", answer);
-}
-*/

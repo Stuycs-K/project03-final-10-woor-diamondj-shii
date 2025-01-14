@@ -18,4 +18,4 @@ game.o: game.c game.h
 	@gcc -c game.c
 
 clean:
-	@rm play ctrl *.o
+	@rm play ctrl *.o guesses.txt

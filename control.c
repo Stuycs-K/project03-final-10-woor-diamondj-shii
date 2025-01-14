@@ -76,13 +76,6 @@ void gameSetup() {
   char* answer = (char*) shmat(shmid, 0, 0);
   strcpy(answer, word);
   shmdt(answer);
-  //store guessArray
-  shmid = shmget(GUESSARRAYSHMKEY, BUFFERSIZE * 6, IPC_CREAT | 0666);
-  char** guessArray = (char**) shmat(shmid, 0, 0);
-  for (int i = 0; i < 6; i++){
-    guessArray[i] = malloc(BUFFERSIZE);
-  }
-  shmdt(guessArray);
 }
 
 void reset() {
@@ -94,6 +87,8 @@ void reset() {
   remove("guesses.txt");
 
   // remove shared memory
-  int shmid = shmget(ANSWERSHMKEY, 0, 0);
+  int shmid = shmget(TURNSHMKEYSHMKEY, 0, 0);
+  shmctl(shmid, IPC_RMID, 0);
+  shmid = shmget(ANSWERSHMKEY, 0, 0);
   shmctl(shmid, IPC_RMID, 0);
 }

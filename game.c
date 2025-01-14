@@ -19,11 +19,14 @@
 #define GREEN "\033[102m"
 #define RESET "\033[49m"
 
-void printBoard(char* guessArray[], int turn){
+void printBoard(int turn){
+    FILE * guessFile = fopen("guesses.txt", "r");
     for (int i = 0; i < 6; i++){
         //print all previous guesses
         if (turn > i){
-            printf("%s\n", guessArray[i]);
+            char guess[BUFFERSIZE];
+            fgets(guess, BUFFERSIZE, guessFile);
+            printf("%s\n", guess);
         }
         //print empty lines for remaining guesses
         else{
