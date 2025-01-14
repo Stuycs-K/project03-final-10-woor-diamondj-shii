@@ -36,6 +36,9 @@ added global game variable initialization in gameSetup() in control.c, still com
 got both clients to access shared memory, need to fix shared guessArray (class period)
 changed from storing guesses in an array to writing them to a file, both clients can properly write to the file and print contents (40 min)
 
+### 2025-01-14
+removed shared int for turn, started making game end logic (class period)
+
 ## Julien Diamond
 
 ### 2024-01-06 (class period)
