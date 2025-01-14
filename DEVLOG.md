@@ -62,6 +62,9 @@ pair programmed to begin working on server/subserver and client implementation
 ### 2024-01-13 (20 minutes)
 fixed some server-related errors
 
+### 2024-01-13 (class period)
+pair programmed to continue working on server implementation including select to read from both client at once
+
 ## Ian Shi
 
 ### 2025-1-09 (at home)
