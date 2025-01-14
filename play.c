@@ -29,6 +29,7 @@ int main() {
   //initialize global variables
   int* turn = (int*) malloc(sizeof(int));
   char* answer = (char*) malloc(6 * sizeof(char));
+  int win = 0;
   while (1) {
     // wait to access semaphore
     printf("waiting for turn...\n");
@@ -51,15 +52,28 @@ int main() {
     int guessFile = open("guesses.txt", O_RDWR | O_APPEND);
     // making turn
     printBoard(*turn);
+    if (*turn >= 6){
+      printf("Game Over!\n");
+      exit(0);
+    }
     char buffer[BUFFERSIZE] = {'\0'};
     printf("Enter a 5-letter word\n");
     fgets(buffer, BUFFERSIZE, stdin);
+    if (strcmp(buffer, answer) == 0){
+      win = 1;
+    }
     checkGuess(buffer, answer);
     *(strchr(buffer, '\0')) = '\n';
     write(guessFile, buffer, strlen(buffer));
     //increment turn
     *turn = *turn + 1;
     printBoard(*turn);
+    //set turn to 6 if answer is guessed
+    if (win == 1){
+      printf("You guessed the word!\n");
+      *turn = 6;
+      exit(0);
+    }
     //detach shared memory
     shmdt(turn);
     shmdt(answer);

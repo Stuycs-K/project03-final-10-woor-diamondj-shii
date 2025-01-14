@@ -87,7 +87,7 @@ void reset() {
   remove("guesses.txt");
 
   // remove shared memory
-  int shmid = shmget(TURNSHMKEYSHMKEY, 0, 0);
+  int shmid = shmget(TURNSHMKEY, 0, 0);
   shmctl(shmid, IPC_RMID, 0);
   shmid = shmget(ANSWERSHMKEY, 0, 0);
   shmctl(shmid, IPC_RMID, 0);
