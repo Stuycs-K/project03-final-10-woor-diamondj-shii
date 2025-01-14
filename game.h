@@ -11,6 +11,15 @@
 
 #ifndef GAME_H
 #define GAME_H
+
+union semun {
+  int val;                  //used for SETVAL
+  struct semid_ds *buf;     //used for IPC_STAT and IPC_SET
+  unsigned short  *array;   //used for SETALL
+  struct seminfo  *__buf;
+};
+
+void runGame(int semkey, int shmkey);
 /*
 Prints the game board with all previous results and underscores for remaining guesses, or a blank screen if it's the first turn, takes an array of all entered guesses and the current turn number
 */
