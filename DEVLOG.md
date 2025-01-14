@@ -34,6 +34,7 @@ added global game variable initialization in gameSetup() in control.c, still com
 
 ### 2025-01-13
 got both clients to access shared memory, need to fix shared guessArray (class period)
+changed from storing guesses in an array to writing them to a file, both clients can properly write to the file and print contents (40 min)
 
 ## Julien Diamond
 
