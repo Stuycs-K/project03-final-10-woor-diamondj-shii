@@ -42,32 +42,38 @@ removed game end logic (can be done in subserver), added checking for valid gues
 
 ## Julien Diamond
 
-### 2024-01-06 (class period)
+### 2025-01-06 (class period)
 Finished and uploaded proposal, began skeleton files
 
-### 2024-01-07 (class period)
+### 2025-01-07 (class period)
 Wrote makefile, setup() function to create semaphores and guess file, started function to remove semaphore
 
-### 2024-01-07 (20 mins)
+### 2025-01-07 (20 mins)
 Fixed remove semaphore function + added remove file feature, control.c now controllable via args `setup` and `reset`
 
-### 2024-01-08 (class period)
+### 2025-01-08 (class period)
 Starting implementing answer string stored in shared memory
 
-### 2024-01-09 (class period)
+### 2025-01-09 (class period)
 Brainstormed restructuring of project for added complexity, will now aim for forking server that sends every two consecutive clients into a game
 
-### 2024-01-10 (30 minutes)
+### 2025-01-10 (30 minutes)
 `control.c` now creates and removes a string in shared memory, which is accessable by clients; the randomly generated answer is now stored in that shared memory upon called `make control ARGS="setup"`
 
-### 2024-01-10 (class period)
+### 2025-01-10 (class period)
 pair programmed to begin working on server/subserver and client implementation
 
-### 2024-01-13 (20 minutes)
+### 2025-01-13 (20 minutes)
 fixed some server-related errors
 
-### 2024-01-13 (class period)
+### 2025-01-13 (class period)
 pair programmed to continue working on server implementation including select to read from both client at once
+
+### 2025-01-15 (35 minutes)
+fixed errors associated with sending semkey/shmkey/pid to clients, worked on string in shm segfault
+
+### 2025-01-15 (class period)
+pair programmed to continue working on server setup---successful forking to match two clients to a game; began working on linking wordle with server/client system
 
 ## Ian Shi
 
