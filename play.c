@@ -26,7 +26,7 @@ union semun {
 int main() {
   //initialize global variables
   char* answer = (char*) malloc(6 * sizeof(char));
-  int win = 0;
+  int gameStatus = 0;
   while (1) {
     // wait to access semaphore
     printf("waiting for turn...\n");
@@ -43,7 +43,16 @@ int main() {
     //access guess file
     int guessFile = open("guesses.txt", O_RDWR | O_APPEND);
     // making turn
-    printBoard();
+    gameStatus = printBoard(answer);
+    //print any game-end messages
+    if (gameStatus == 1){
+      printf("The other player guessed the word!\n");
+      exit(0);
+    }
+    if (gameStatus == 2){
+      printf("You ran out of turns! The word was \"%s\"\n", answer);
+      exit(0);
+    }
     char buffer[BUFFERSIZE] = {'\0'};
     printf("Enter a 5-letter word.\n");
     fgets(buffer, BUFFERSIZE, stdin);
@@ -55,20 +64,21 @@ int main() {
     }
     //check if answer is guessed
     if (strcmp(buffer, answer) == 0){
-      win = 1;
+      gameStatus = 1;
     }
     checkGuess(buffer, answer);
     *(strchr(buffer, '\0')) = '\n';
     write(guessFile, buffer, strlen(buffer));
-    printBoard();
-    //print message if answer is guessed
-    if (win == 1){
-      printf("You guessed the word!\n");
-    }
+    printBoard(answer);
     //detach shared memory
     shmdt(answer);
     // release and increment semaphore
     sb.sem_op = 1;
     semop(semd, &sb, 1);
+    //print message if answer was guessed
+    if (gameStatus == 1){
+      printf("You guessed the word!\n");
+      exit(0);
+    }
   }
 }

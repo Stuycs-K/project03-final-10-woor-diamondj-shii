@@ -40,6 +40,9 @@ changed from storing guesses in an array to writing them to a file, both clients
 removed shared int for turn, started making game end logic (class period)
 removed game end logic (can be done in subserver), added checking for valid guesses (length of 5 and only letters) (35 min)
 
+### 2025-01-15
+game ends after 6 turns, adding game ends when correct answer is guessed (class period)
+
 ## Julien Diamond
 
 ### 2025-01-06 (class period)

@@ -19,18 +19,32 @@
 #define GREEN "\033[102m"
 #define RESET "\033[49m"
 
-void printBoard(){
+int printBoard(char* answer){
+    //gameStatus: 0 - continue game, 1 - word was guessed correctly, 2 - ran out of turns
+    int gameStatus = 0;
     FILE * guessFile = fopen("guesses.txt", "r");
     for (int i = 0; i < 6; i++){
         char guess[BUFFERSIZE];
         //print all previous guesses
         if (fgets(guess, BUFFERSIZE, guessFile) != NULL){
             printf("%s\n", guess);
+            //return 1 if word was guessed correctly
+            checkGuess(guess, answer);
+            if (strcmp(guess, answer) == 0){
+                gameStatus = 1;
+            }
+            //return 2 if no more turns;
+            else{
+                if (i == 5){
+                    gameStatus = 2;
+                }
+            }
         }
         //print empty lines for remaining guesses
         else{
             printf("_____\n");
         }
+        return gameStatus;
     }
 }
 
