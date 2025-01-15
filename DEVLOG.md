@@ -54,6 +54,9 @@ Brainstormed restructuring of project for added complexity, will now aim for for
 
 ## Ian Shi
 
+### 2025-1-14 (at home)
+delete shm and sem key after ending game, get rid of debugging print statements for the server client handshake
+
 ### 2025-1-14 (class period)
 fix segfault error when accessing shared memory for answer
 
