@@ -60,9 +60,13 @@ int main() {
       int EXIT = -1;
       if(FD_ISSET(from_client1, &fds)) {
         write(to_client2, &EXIT, sizeof(EXIT));
+        reset(*shmkey, *semkey);
+        exit(0);
       }
       if(FD_ISSET(from_client2, &fds)) {
         write(to_client1, &EXIT, sizeof(EXIT));
+        reset(*shmkey, *semkey);
+        exit(0);
       }
     }
   }
