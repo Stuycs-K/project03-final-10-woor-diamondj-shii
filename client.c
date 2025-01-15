@@ -34,10 +34,11 @@ int main() {
 
   int shmkey = -1;
   int semkey = -1;
-  pid_t server_pid = -1;
+  int gameID = -1;
 
   read(from_server, &shmkey, sizeof(shmkey));
   read(from_server, &semkey, sizeof(semkey));
+  read(from_server, &gameID, sizeof(int));
 
   printf("client received: shmkey = %d, semkey = %d\n", shmkey, semkey);
 
@@ -47,7 +48,7 @@ int main() {
     exit(1);
   }
   else if (pid != 0) {
-    runGame(semkey, shmkey);
+    runGame(semkey, shmkey, gameID);
   }
   else {
     int buffer[1];

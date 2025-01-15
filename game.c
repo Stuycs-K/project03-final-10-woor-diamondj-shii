@@ -28,8 +28,10 @@ int err() {
   exit(1);
 }
 
-void printBoard() {
-  FILE* guessFile = fopen("guesses.txt", "r");
+void printBoard(int gameID) {
+  char* gameName = (char*) malloc(20 * sizeof(char));
+  sprintf(gameName, "guesses%d.txt", gameID);
+  FILE* guessFile = fopen(gameName, "r");
   for (int i = 0; i < 6; i++) {
     char guess[BUFFERSIZE];
     // print all previous guesses
@@ -46,7 +48,7 @@ void printBoard() {
 void checkGuess(char* guess, char* answer){
     char formattedGuess[BUFFERSIZE] = {'\0'};
     //format each letter
-    for (int i = 0; i < strlen(guess) - 1; i++){
+    for (int i = 0; i < strlen(guess); i++){
         char letter = guess[i];
         char formattedLetter[BUFFERSIZE] = {'\0'};
         //make background green if letter is in correct spot
@@ -86,7 +88,7 @@ int isValidGuess(char* guess) {
   return 1;
 }
 
-void runGame(int semkey, int shmkey) {
+void runGame(int semkey, int shmkey, int gameID) {
   //initialize global variables
   char* answer = (char*) malloc(6 * sizeof(char));
   int win = 0;
@@ -108,10 +110,13 @@ void runGame(int semkey, int shmkey) {
     answer = shmat(shmid, 0, 0);
 
     //access guess file
-    int guessFile = open("guesses.txt", O_RDWR | O_APPEND);
+    char* gameName = (char*) malloc(20 * sizeof(char));
+    sprintf(gameName, "guesses%d.txt", gameID);
+    printf("gameName = %s\n", gameName);
+    int guessFile = open(gameName, O_RDWR | O_APPEND);
 
     // making turn
-    printBoard();
+    printBoard(gameID);
     char buffer[BUFFERSIZE] = {'\0'};
     printf("Enter a 5-letter word.\n");
     fgets(buffer, BUFFERSIZE, stdin);
@@ -126,10 +131,11 @@ void runGame(int semkey, int shmkey) {
     if (strcmp(buffer, answer) == 0){
       win = 1;
     }
+
     checkGuess(buffer, answer);
     *(strchr(buffer, '\0')) = '\n';
     write(guessFile, buffer, strlen(buffer));
-    printBoard();
+    printBoard(gameID);
 
     //print message if answer is guessed
     if (win == 1){

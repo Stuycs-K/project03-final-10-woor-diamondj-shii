@@ -25,9 +25,9 @@ char * generateRandomWord();
 /*
 Creates word and file to store guesses
 */
-void gameSetup(int shmkey, int semkey);
+void gameSetup(int shmkey, int semkey, int gameID);
 // Takes a 5-letter string, prints color-coded result
 void checkGuess(char* word);
 // removes guesses.txt and removes semaphore
-void reset(int shmkey, int semkey);
+void reset(int shmkey, int semkey, int gameID);
 #endif

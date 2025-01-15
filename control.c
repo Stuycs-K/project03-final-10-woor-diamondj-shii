@@ -29,7 +29,7 @@ char* generateRandomWord() {
   return shortenedWord;
 }
 
-void gameSetup(int shmkey, int semkey) {
+void gameSetup(int shmkey, int semkey, int gameID) {
   // create semaphore w/ value 1
   int semd = semget(semkey, 1, IPC_CREAT | IPC_EXCL | 0644);
   union semun us;
@@ -37,8 +37,11 @@ void gameSetup(int shmkey, int semkey) {
   semctl(semd, 0, SETVAL, us);
 
   // create guess file
-  open("guesses.txt", O_RDWR | O_CREAT | O_TRUNC, 0644);
-  chmod("guesses.txt", 0666);
+  char* gameName = (char*) malloc(20 * sizeof(char));
+  sprintf(gameName, "guesses%d.txt", gameID);
+  open(gameName, O_RDWR | O_CREAT | O_TRUNC, 0644);
+  chmod(gameName, 0666);
+  free(gameName);
 
   // generate answer
   char* word = generateRandomWord();
@@ -53,13 +56,16 @@ void gameSetup(int shmkey, int semkey) {
   shmdt(answer);
 }
 
-void reset(int shmkey, int semkey) {
+void reset(int shmkey, int semkey, int gameID) {
   // remove semaphore
   int semd = semget(semkey, 1, IPC_STAT);
   semctl(semd, 1, IPC_RMID);
 
   // remove guess file
-  remove("guesses.txt");
+  char* gameName = (char*) malloc(20 * sizeof(char));
+  sprintf(gameName, "guesses%d.txt", gameID);
+  remove(gameName);
+  free(gameName);
 
   // remove shared memory
   int shmid = shmget(shmkey, 0, 0);

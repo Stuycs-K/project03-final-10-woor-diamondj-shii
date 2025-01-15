@@ -32,21 +32,25 @@ int main() {
       close(to_client2);
     }
     else { // child
-      int * shmkey = malloc(sizeof(int));
-      int * semkey = malloc(sizeof(int));
+      int * shmkey = (int*) malloc(sizeof(int));
+      int * semkey = (int*) malloc(sizeof(int));
       int fd = open("/dev/random", O_RDONLY);
+      int gameID = getpid();
       read(fd, shmkey, sizeof(int));
       read(fd, semkey, sizeof(int));
       *shmkey = (*shmkey < 0 ? (*shmkey * -1) : *shmkey) % 100000;
       *semkey = (*semkey < 0 ? (*semkey * -1) : *semkey) % 100000;
 
-      gameSetup(*shmkey, *semkey);
+      gameSetup(*shmkey, *semkey, gameID);
 
       write(to_client1, shmkey, sizeof(int));
       write(to_client2, shmkey, sizeof(int));
 
       write(to_client1, semkey, sizeof(int));
       write(to_client2, semkey, sizeof(int));
+
+      write(to_client1, &gameID, sizeof(int));
+      write(to_client2, &gameID, sizeof(int));
 
       printf("server sent: shmkey = %d, semkey = %d\n", *shmkey, *semkey);
 
@@ -60,12 +64,12 @@ int main() {
       int EXIT = -1;
       if(FD_ISSET(from_client1, &fds)) {
         write(to_client2, &EXIT, sizeof(EXIT));
-        reset(*shmkey, *semkey);
+        reset(*shmkey, *semkey, gameID);
         exit(0);
       }
       if(FD_ISSET(from_client2, &fds)) {
         write(to_client1, &EXIT, sizeof(EXIT));
-        reset(*shmkey, *semkey);
+        reset(*shmkey, *semkey, gameID);
         exit(0);
       }
     }
