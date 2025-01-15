@@ -58,3 +58,21 @@ void checkGuess(char* guess, char* answer){
     }
     strcpy(guess, formattedGuess);
 }
+
+int isValidGuess(char* guess){
+    //return false if length isn't 5
+    if (strlen(guess) != 5){
+        return 0;
+    }
+    for (int i = 0; i < 5; i++){
+        //return false if any character isn't a letter
+        if (!(guess[i] >= 'a' && guess[i] <= 'z' || guess[i] >= 'A' && guess[i] <= 'Z')){
+            return 0;
+        }
+        //change all uppercase letters to lowercase
+        if (guess[i] >= 'A' && guess[i] <= 'Z'){
+            guess[i] = guess[i] + 'a' - 'A';
+        }
+    }
+    return 1;
+}

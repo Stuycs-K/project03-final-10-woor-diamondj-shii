@@ -45,10 +45,15 @@ int main() {
     // making turn
     printBoard();
     char buffer[BUFFERSIZE] = {'\0'};
-    printf("Enter a 5-letter word\n");
+    printf("Enter a 5-letter word.\n");
     fgets(buffer, BUFFERSIZE, stdin);
-    //check if answer is guessed
     *(strchr(buffer, '\n')) = '\0';
+    while (isValidGuess(buffer) == 0){
+      printf("Invalid guess. Please enter a 5-letter word.\n");
+      fgets(buffer, BUFFERSIZE, stdin);
+      *(strchr(buffer, '\n')) = '\0';
+    }
+    //check if answer is guessed
     if (strcmp(buffer, answer) == 0){
       win = 1;
     }

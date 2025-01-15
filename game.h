@@ -19,4 +19,6 @@ void printBoard();
 Takes a 5-letter string as a guess, returns color-coded result
 */
 void checkGuess(char* guess, char* answer);
+
+int isValidGuess(char* guess);
 #endif
