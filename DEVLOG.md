@@ -54,6 +54,9 @@ Brainstormed restructuring of project for added complexity, will now aim for for
 
 ## Ian Shi
 
+### 2025-1-14 (class period)
+fix segfault error when accessing shared memory for answer
+
 ### 2025-1-13 (class period)
 start working on interaction between server and client for exiting. worked with julien for this.
 
