@@ -38,7 +38,7 @@ changed from storing guesses in an array to writing them to a file, both clients
 
 ### 2025-01-14
 removed shared int for turn, started making game end logic (class period)
-
+removed game end logic (can be done in subserver), added checking for valid guesses (length of 5 and only letters) (35 min)
 
 ## Julien Diamond
 
