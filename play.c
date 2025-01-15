@@ -44,13 +44,11 @@ int main() {
     int guessFile = open("guesses.txt", O_RDWR | O_APPEND);
     // making turn
     printBoard();
-    // if (){
-    //   printf("Game Over!\n");
-    //   exit(0);
-    // }
     char buffer[BUFFERSIZE] = {'\0'};
     printf("Enter a 5-letter word\n");
     fgets(buffer, BUFFERSIZE, stdin);
+    //check if answer is guessed
+    *(strchr(buffer, '\n')) = '\0';
     if (strcmp(buffer, answer) == 0){
       win = 1;
     }
@@ -58,17 +56,13 @@ int main() {
     *(strchr(buffer, '\0')) = '\n';
     write(guessFile, buffer, strlen(buffer));
     printBoard();
-    //set turn to 6 if answer is guessed
+    //print message if answer is guessed
     if (win == 1){
       printf("You guessed the word!\n");
-      exit(0);
     }
     //detach shared memory
     shmdt(answer);
     // release and increment semaphore
-    //1 - keep playing the game normally
-    //2 - player guessed the answer
-    //3 - ran out of turns
     sb.sem_op = 1;
     semop(semd, &sb, 1);
   }

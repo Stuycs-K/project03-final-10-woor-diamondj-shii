@@ -37,7 +37,7 @@ void printBoard(){
 void checkGuess(char* guess, char* answer){
     char formattedGuess[BUFFERSIZE] = {'\0'};
     //format each letter
-    for (int i = 0; i < strlen(guess) - 1; i++){
+    for (int i = 0; i < strlen(guess); i++){
         char letter = guess[i];
         char formattedLetter[BUFFERSIZE] = {'\0'};
         //make background green if letter is in correct spot
