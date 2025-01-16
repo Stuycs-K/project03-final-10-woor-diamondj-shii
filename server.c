@@ -14,10 +14,22 @@ int main() {
   srand(time(NULL));
 
   while (1) {
+    int numClients = 0;
+
     from_client1 = server_setup();
     to_client1 = server_connect(from_client1);
+    numClients++;
     from_client2 = server_setup();
     to_client2 = server_connect(from_client2);
+    numClients++;
+
+    while (numClients < 2) {
+      to_client1 = to_client2;
+      from_client1 = from_client2;
+      from_client2 = server_setup();
+      to_client2 = server_connect(from_client2);
+      numClients++;
+    }
 
     pid_t f = fork();
     printf("forking\n");
@@ -36,6 +48,7 @@ int main() {
       int * semkey = (int*) malloc(sizeof(int));
       int fd = open("/dev/random", O_RDONLY);
       int gameID = getpid();
+
       read(fd, shmkey, sizeof(int));
       read(fd, semkey, sizeof(int));
       *shmkey = (*shmkey < 0 ? (*shmkey * -1) : *shmkey) % 100000;
