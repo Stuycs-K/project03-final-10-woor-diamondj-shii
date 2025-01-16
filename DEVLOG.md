@@ -42,6 +42,7 @@ removed game end logic (can be done in subserver), added checking for valid gues
 
 ### 2025-01-15
 game ends after 6 turns, adding game ends when correct answer is guessed (class period)
+game ends when correct answer is guessed (40 min)
 
 ## Julien Diamond
 
