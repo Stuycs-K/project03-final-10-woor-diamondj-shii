@@ -73,11 +73,20 @@ fixed some server-related errors
 ### 2025-01-13 (class period)
 pair programmed to continue working on server implementation including select to read from both client at once
 
-### 2025-01-15 (35 minutes)
+### 2025-01-14 (35 minutes)
 fixed errors associated with sending semkey/shmkey/pid to clients, worked on string in shm segfault
 
-### 2025-01-15 (class period)
+### 2025-01-14 (class period)
 pair programmed to continue working on server setup---successful forking to match two clients to a game; began working on linking wordle with server/client system
+
+### 2025-01-15 (35 minutes)
+merged wordle into server/client system; bug in word display (only shows 4 letters)
+
+### 2025-01-15 (class period)
+pair programmed to allow multiple games to run simultaneously by giving each a gameID
+
+### 2025-01-16 (20 minutes)
+wrote code to handle client1 quitting before game, but need to detect quit and decrement numClients for it to be put into action
 
 ## Ian Shi
 
