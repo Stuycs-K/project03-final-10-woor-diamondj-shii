@@ -14,22 +14,22 @@ int main() {
   srand(time(NULL));
 
   while (1) {
-    int numClients = 0;
+    // int numClients = 0;
 
     from_client1 = server_setup();
     to_client1 = server_connect(from_client1);
-    numClients++;
+    // numClients++;
     from_client2 = server_setup();
     to_client2 = server_connect(from_client2);
-    numClients++;
+    // numClients++;
 
-    while (numClients < 2) {
-      to_client1 = to_client2;
-      from_client1 = from_client2;
-      from_client2 = server_setup();
-      to_client2 = server_connect(from_client2);
-      numClients++;
-    }
+    // while (numClients < 2) {
+    //   to_client1 = to_client2;
+    //   from_client1 = from_client2;
+    //   from_client2 = server_setup();
+    //   to_client2 = server_connect(from_client2);
+    //   numClients++;
+    // }
 
     pid_t f = fork();
     printf("forking\n");
@@ -54,7 +54,11 @@ int main() {
       *shmkey = (*shmkey < 0 ? (*shmkey * -1) : *shmkey) % 100000;
       *semkey = (*semkey < 0 ? (*semkey * -1) : *semkey) % 100000;
 
+      printf("calling gameSetup...\n");
+
       gameSetup(*shmkey, *semkey, gameID);
+
+      printf("server sending keys...\n");
 
       write(to_client1, shmkey, sizeof(int));
       write(to_client2, shmkey, sizeof(int));

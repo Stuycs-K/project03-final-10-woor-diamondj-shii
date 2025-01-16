@@ -22,7 +22,7 @@ char* generateRandomWord() {
     }
   }
 
-  char * shortenedWord = malloc(6);
+  char * shortenedWord = (char*) malloc(6);
   strncpy(shortenedWord, word, 5);
   shortenedWord[5] = '\0';
 
@@ -47,10 +47,8 @@ void gameSetup(int shmkey, int semkey, int gameID) {
   char* word = generateRandomWord();
   printf("word: %s\n", word);
 
-  // create shared memory
-  int shmid;
-  //store answer
-  shmid = shmget(shmkey, 6 * sizeof(char), IPC_CREAT | 0666);
+  // create shared memory and store answer
+  int shmid = shmget(shmkey, 6 * sizeof(char), IPC_CREAT | 0666);
   char* answer = (char*) shmat(shmid, 0, 0);
   strcpy(answer, word);
   shmdt(answer);

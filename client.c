@@ -49,6 +49,7 @@ int main() {
   }
   else if (pid != 0) {
     runGame(semkey, shmkey, gameID);
+    write(to_server, &EXIT, sizeof(EXIT));
   }
   else {
     int buffer[1];
