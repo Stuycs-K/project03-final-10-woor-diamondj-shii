@@ -27,10 +27,9 @@ int printBoard(char* answer){
         char guess[BUFFERSIZE];
         //print all previous guesses
         if (fgets(guess, BUFFERSIZE, guessFile) != NULL){
-            printf("%s\n", guess);
+            printf("%s", guess);
             //return 1 if word was guessed correctly
-            checkGuess(guess, answer);
-            if (strcmp(guess, answer) == 0){
+            if (guess[6] == answer[0] && guess[18] == answer[1] && guess[30] == answer[2] && guess[42] == answer[3] && guess[54] == answer[4]){
                 gameStatus = 1;
             }
             //return 2 if no more turns;
@@ -44,8 +43,8 @@ int printBoard(char* answer){
         else{
             printf("_____\n");
         }
-        return gameStatus;
     }
+    return gameStatus;
 }
 
 void checkGuess(char* guess, char* answer){
