@@ -10,7 +10,7 @@ found text files with valid wordle words that we could potentially use later (20
 
 answers only: https://gist.github.com/cfreshman/a03ef2cba789d8cf00c08f767e0fad7b
 
-allowed guesses besides answers: https://gist.github.com/cfreshman/cdcdf777450c5b5301e439061d29694c 
+allowed guesses besides answers: https://gist.github.com/cfreshman/cdcdf777450c5b5301e439061d29694c
 
 valid answers and guesses: https://gist.github.com/dracos/dd0668f281e685bad51479e5acaadb93
 
@@ -53,6 +53,9 @@ Brainstormed restructuring of project for added complexity, will now aim for for
 `control.c` now creates and removes a string in shared memory, which is accessable by clients; the randomly generated answer is now stored in that shared memory upon called `make control ARGS="setup"`
 
 ## Ian Shi
+
+### 2025-1-15 (in class)
+worked with julien (same as his dev log for in class today)
 
 ### 2025-1-14 (at home)
 delete shm and sem key after ending game, get rid of debugging print statements for the server client handshake
