@@ -15,18 +15,18 @@ int server_setup() {
       printf("Error: %s\n", strerror(errno));
       exit(EXIT_FAILURE);
     }
-    printf("server: removed old fifo\n");
+    // printf("server: removed old fifo\n");
   }
 
   if (mkfifo(WKP, 0666) == -1) {
     printf("Error: %s\n", strerror(errno));
     exit(EXIT_FAILURE);
   }
-  printf("server: made fifo\n");
+  // printf("server: made fifo\n");
 
-  printf("server: opening wkp, waiting for client\n");
+  // printf("server: opening wkp, waiting for client\n");
   int upstream = open(WKP, O_RDONLY);
-  printf("server: client connected to wkp\n");
+  // printf("server: client connected to wkp\n");
 
   if(unlink(WKP) == -1) {
     printf("Error: %s\n", strerror(errno));
@@ -47,7 +47,7 @@ int server_setup() {
   =========================*/
 int server_handshake(int *to_client) {
   int from_client = server_setup();
-  printf("server has been setup\n");
+  // printf("server has been setup\n");
 
   char to_client_string[HANDSHAKE_BUFFER_SIZE]; // also the pid of the child process
   read(from_client, &to_client_string, HANDSHAKE_BUFFER_SIZE);
@@ -88,26 +88,26 @@ int client_handshake(int *to_server) {
       printf("Error: %s\n", strerror(errno));
       exit(EXIT_FAILURE);
     }
-    printf("client: removed old PP\n");
+    // printf("client: removed old PP\n");
   }
 
   if (mkfifo(PP, 0666) == -1) {
     printf("Error: %s\n", strerror(errno));
     exit(EXIT_FAILURE);
   }
-  printf("client: made PP\n");
+  // printf("client: made PP\n");
 
-  printf("client: opening wkp, unblocking server\n");
+  // printf("client: opening wkp, unblocking server\n");
   *to_server = open(WKP, O_WRONLY);
   write(*to_server, PP, strlen(PP) + 1);
-  printf("client: sent PP to server\n");
+  // printf("client: sent PP to server\n");
 
-  printf("client: waiting for SYN_ACK\n");
+  // printf("client: waiting for SYN_ACK\n");
   int downstream = open(PP, O_RDONLY);
   int SYN_ACK_RECIEVED = 0;
   read(downstream, &SYN_ACK_RECIEVED, sizeof(SYN_ACK_RECIEVED));
 
-  printf("client: recieved SYN_ACK: %d\n", SYN_ACK_RECIEVED);
+  // printf("client: recieved SYN_ACK: %d\n", SYN_ACK_RECIEVED);
 
   int ACK = SYN_ACK_RECIEVED + 1;
 
