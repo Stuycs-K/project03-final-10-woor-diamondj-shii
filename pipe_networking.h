@@ -7,6 +7,10 @@
 #include <string.h>
 #include <errno.h>
 #include <time.h>
+#include <sys/socket.h>
+#include <sys/socket.h>
+#include <netdb.h>
+#include <signal.h>
 
 #ifndef NETWORKING_H
 #define NETWORKING_H
@@ -18,8 +22,6 @@
 
 #define READ 0
 #define WRITE 1
-
-#define GO 123
 
 int server_handshake(int *to_client);
 int client_handshake(int *to_server);

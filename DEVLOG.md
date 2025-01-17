@@ -96,6 +96,18 @@ wrote code to handle client1 quitting before game, but need to detect quit and d
 
 ## Ian Shi
 
+### 2025-1-14 (at home)
+delete shm and sem key after ending game, get rid of debugging print statements for the server client handshake
+
+### 2025-1-14 (class period)
+fix segfault error when accessing shared memory for answer
+
+### 2025-1-13 (class period)
+start working on interaction between server and client for exiting. worked with julien for this.
+
+### 2025-1-10 (class period)
+accept two clients and send shmkey and semkey to them. worked with julien for this.
+
 ### 2025-1-09 (at home)
 Started server stuff
 

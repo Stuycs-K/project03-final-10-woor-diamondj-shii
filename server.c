@@ -1,6 +1,5 @@
-#include <signal.h>
-
 #include "pipe_networking.h"
+#include "control.h"
 
 int main() {
   signal(SIGINT, handle_sigint_server);
@@ -10,15 +9,30 @@ int main() {
   int from_client1;
 
   int to_client2;
-  int frmo_client2;
+  int from_client2;
+
+  srand(time(NULL));
 
   while (1) {
+    // int numClients = 0;
+
     from_client1 = server_setup();
     to_client1 = server_connect(from_client1);
+    // numClients++;
     from_client2 = server_setup();
     to_client2 = server_connect(from_client2);
+    // numClients++;
+
+    // while (numClients < 2) {
+    //   to_client1 = to_client2;
+    //   from_client1 = from_client2;
+    //   from_client2 = server_setup();
+    //   to_client2 = server_connect(from_client2);
+    //   numClients++;
+    // }
 
     pid_t f = fork();
+    printf("forking\n");
     if (f == -1) {
       printf("fork failed\n");
       exit(EXIT_FAILURE);
@@ -30,7 +44,51 @@ int main() {
       close(to_client2);
     }
     else { // child
-      write(to_client1, *GO, sizeof(GO));
+      int * shmkey = (int*) malloc(sizeof(int));
+      int * semkey = (int*) malloc(sizeof(int));
+      int fd = open("/dev/random", O_RDONLY);
+      int gameID = getpid();
+
+      read(fd, shmkey, sizeof(int));
+      read(fd, semkey, sizeof(int));
+      *shmkey = (*shmkey < 0 ? (*shmkey * -1) : *shmkey) % 100000;
+      *semkey = (*semkey < 0 ? (*semkey * -1) : *semkey) % 100000;
+
+      printf("calling gameSetup...\n");
+
+      gameSetup(*shmkey, *semkey, gameID);
+
+      printf("server sending keys...\n");
+
+      write(to_client1, shmkey, sizeof(int));
+      write(to_client2, shmkey, sizeof(int));
+
+      write(to_client1, semkey, sizeof(int));
+      write(to_client2, semkey, sizeof(int));
+
+      write(to_client1, &gameID, sizeof(int));
+      write(to_client2, &gameID, sizeof(int));
+
+      printf("server sent: shmkey = %d, semkey = %d\n", *shmkey, *semkey);
+
+      fd_set fds;
+      char buffer[100];
+      FD_ZERO(&fds);
+      FD_SET(from_client1, &fds);
+      FD_SET(from_client2, &fds);
+      select((to_client1 > to_client2 ? to_client1 : to_client2) + 1, &fds, NULL, NULL, NULL);
+
+      int EXIT = -1;
+      if(FD_ISSET(from_client1, &fds)) {
+        write(to_client2, &EXIT, sizeof(EXIT));
+        reset(*shmkey, *semkey, gameID);
+        exit(0);
+      }
+      if(FD_ISSET(from_client2, &fds)) {
+        write(to_client1, &EXIT, sizeof(EXIT));
+        reset(*shmkey, *semkey, gameID);
+        exit(0);
+      }
     }
   }
 }

@@ -11,16 +11,23 @@
 
 #ifndef CONTROL_H
 #define CONTROL_H
-#define KEY 826534
+
+union semun {
+  int val;                  //used for SETVAL
+  struct semid_ds *buf;     //used for IPC_STAT and IPC_SET
+  unsigned short  *array;   //used for SETALL
+  struct seminfo  *__buf;
+};
+
 #define TOTAL_ANSWERS 2315
 
 char * generateRandomWord();
 /*
 Creates word and file to store guesses
 */
-void gameSetup();
+void gameSetup(int shmkey, int semkey, int gameID);
 // Takes a 5-letter string, prints color-coded result
 void checkGuess(char* word);
 // removes guesses.txt and removes semaphore
-void reset();
+void reset(int shmkey, int semkey, int gameID);
 #endif
