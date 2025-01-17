@@ -35,6 +35,7 @@ void gameSetup(int shmkey, int semkey, int gameID) {
   union semun us;
   us.val = 1;
   semctl(semd, 0, SETVAL, us);
+  printf("created semaphore w/ value 1\n");
 
   // create guess file
   char* gameName = (char*) malloc(20 * sizeof(char));
@@ -42,6 +43,7 @@ void gameSetup(int shmkey, int semkey, int gameID) {
   open(gameName, O_RDWR | O_CREAT | O_TRUNC, 0644);
   chmod(gameName, 0666);
   free(gameName);
+  printf("created guess file\n");
 
   // generate answer
   char* word = generateRandomWord();
@@ -52,6 +54,7 @@ void gameSetup(int shmkey, int semkey, int gameID) {
   char* answer = (char*) shmat(shmid, 0, 0);
   strcpy(answer, word);
   shmdt(answer);
+  printf("created shared memory segment\n");
 }
 
 void reset(int shmkey, int semkey, int gameID) {

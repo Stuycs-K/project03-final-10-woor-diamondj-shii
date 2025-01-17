@@ -14,6 +14,7 @@ int main() {
   srand(time(NULL));
 
   while (1) {
+    printf("(server) while loop called\n");
     // int numClients = 0;
 
     from_client1 = server_setup();
@@ -32,7 +33,7 @@ int main() {
     // }
 
     pid_t f = fork();
-    printf("forking\n");
+    printf("(server) forking\n");
     if (f == -1) {
       printf("fork failed\n");
       exit(EXIT_FAILURE);
@@ -42,6 +43,7 @@ int main() {
       close(from_client2);
       close(to_client1);
       close(to_client2);
+      printf("(server) server resetting\n");
     }
     else { // child
       int * shmkey = (int*) malloc(sizeof(int));
@@ -54,11 +56,11 @@ int main() {
       *shmkey = (*shmkey < 0 ? (*shmkey * -1) : *shmkey) % 100000;
       *semkey = (*semkey < 0 ? (*semkey * -1) : *semkey) % 100000;
 
-      printf("calling gameSetup...\n");
+      printf("(subserver) calling gameSetup w/ shmkey = %d, semkey = %d, gameID = %d\n", *shmkey, *semkey, gameID);
 
       gameSetup(*shmkey, *semkey, gameID);
 
-      printf("server sending keys...\n");
+      printf("subserver sending: shmkey = %d, semkey = %d\n", *shmkey, *semkey);
 
       write(to_client1, shmkey, sizeof(int));
       write(to_client2, shmkey, sizeof(int));
@@ -69,7 +71,7 @@ int main() {
       write(to_client1, &gameID, sizeof(int));
       write(to_client2, &gameID, sizeof(int));
 
-      printf("server sent: shmkey = %d, semkey = %d\n", *shmkey, *semkey);
+      printf("subserver sent: shmkey = %d, semkey = %d\n", *shmkey, *semkey);
 
       fd_set fds;
       char buffer[100];
@@ -89,6 +91,7 @@ int main() {
         reset(*shmkey, *semkey, gameID);
         exit(0);
       }
+    printf("subserver reached end\n");
     }
   }
 }
