@@ -47,6 +47,9 @@ game ends when correct answer is guessed (40 min)
 ### 2025-01-16
 merged features together and tested (class period)
 
+### 2025-01-17
+group debugging (class period)
+
 ## Julien Diamond
 
 ### 2025-01-06 (class period)
