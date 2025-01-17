@@ -36,6 +36,8 @@ int main() {
   int semkey = -1;
   int gameID = -1;
 
+  printf("client reading keys\n");
+
   read(from_server, &shmkey, sizeof(shmkey));
   read(from_server, &semkey, sizeof(semkey));
   read(from_server, &gameID, sizeof(int));
