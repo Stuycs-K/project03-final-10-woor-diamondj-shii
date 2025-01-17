@@ -74,24 +74,25 @@ int main() {
       printf("subserver sent: shmkey = %d, semkey = %d\n", *shmkey, *semkey);
 
       fd_set fds;
-      char buffer[100];
       FD_ZERO(&fds);
       FD_SET(from_client1, &fds);
       FD_SET(from_client2, &fds);
       select((to_client1 > to_client2 ? to_client1 : to_client2) + 1, &fds, NULL, NULL, NULL);
 
-      int EXIT = -1;
       if(FD_ISSET(from_client1, &fds)) {
-        write(to_client2, &EXIT, sizeof(EXIT));
+        int gameStatus;
+        read(from_client1, &gameStatus, sizeof(gameStatus));
+        write(to_client2, &gameStatus, sizeof(gameStatus));
         reset(*shmkey, *semkey, gameID);
         exit(0);
       }
       if(FD_ISSET(from_client2, &fds)) {
-        write(to_client1, &EXIT, sizeof(EXIT));
+        int gameStatus;
+        read(from_client2, &gameStatus, sizeof(gameStatus));
+        write(to_client1, &gameStatus, sizeof(gameStatus));
         reset(*shmkey, *semkey, gameID);
         exit(0);
       }
-    printf("subserver reached end\n");
     }
   }
 }

@@ -4,6 +4,7 @@
 int to_server = -1;
 int from_server = -1;
 int EXIT = -1;
+int endGameStatus = -1;
 
 void handleSigInt() {
   if (to_server != -1) {
@@ -13,6 +14,7 @@ void handleSigInt() {
   if (from_server != -1) {
     close(from_server);
   }
+  printf("Game ended early.\n");
   exit(0);
 }
 
@@ -23,12 +25,25 @@ void handleSigUSR1() {
   if (from_server != -1) {
     close(from_server);
   }
-  printf("other client exited\n");
+  printf("The word was guessed.\n");
+  exit(0);
+}
+
+void handleSigUSR2() {
+  if (to_server != -1) {
+    close(to_server);
+  }
+  if (from_server != -1) {
+    close(from_server);
+  }
+  printf("You ran out of turns.\n");
   exit(0);
 }
 
 int main() {
   signal(SIGINT, handleSigInt);
+  signal(SIGUSR1, handleSigUSR1);
+  signal(SIGUSR2, handleSigUSR2);
 
   from_server = client_handshake( &to_server );
 
@@ -50,13 +65,18 @@ int main() {
     exit(1);
   }
   else if (pid != 0) {
-    runGame(semkey, shmkey, gameID);
-    write(to_server, &EXIT, sizeof(EXIT));
+    endGameStatus = runGame(semkey, shmkey, gameID);
+    write(to_server, &endGameStatus, sizeof(int));
+    if (endGameStatus == 1) kill(getpid(), SIGUSR1);
+    if (endGameStatus == 2) kill(getpid(), SIGUSR2);
   }
   else {
-    int buffer[1];
-    read(from_server, buffer, sizeof(buffer));
-    kill(getppid(), SIGUSR1);
+    read(from_server, &endGameStatus, sizeof(endGameStatus));
+    if (getppid() != 0) {
+      if (endGameStatus == -1) kill(getppid(), SIGINT);
+      if (endGameStatus == 1) kill(getppid(), SIGUSR1);
+      if (endGameStatus == 2) kill(getppid(), SIGUSR2);
+    }
     exit(0);
   }
 }

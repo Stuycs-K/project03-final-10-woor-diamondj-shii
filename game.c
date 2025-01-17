@@ -21,7 +21,7 @@
 #define GREEN "\033[102m"
 #define RESET "\033[49m"
 
-void runGame(int semkey, int shmkey, int gameID) {
+int runGame(int semkey, int shmkey, int gameID) {
   char* answer = (char*) malloc(6 * sizeof(char));
   int gameStatus = 0;
   while (1) {
@@ -45,12 +45,10 @@ void runGame(int semkey, int shmkey, int gameID) {
     gameStatus = printBoard(answer, gameID);
     //print any game-end messages
     if (gameStatus == 1){
-      printf("The other player guessed the word!\n");
-      return;
+      return gameStatus;
     }
     if (gameStatus == 2){
-      printf("You ran out of turns! The word was \"%s\"\n", answer);
-      return;
+      return gameStatus;
     }
     char buffer[BUFFERSIZE] = {'\0'};
     printf("Enter a 5-letter word.\n");
@@ -76,8 +74,7 @@ void runGame(int semkey, int shmkey, int gameID) {
     semop(semd, &sb, 1);
     //print message if answer was guessed
     if (gameStatus == 1){
-      printf("You guessed the word!\n");
-      return;
+      return gameStatus;
     }
   }
 }
