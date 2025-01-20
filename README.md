@@ -7,7 +7,7 @@ Julien Diamond, Ronnie Woo, Ian Shi
 
 ### Project Description:
 
-This is a collaborative adaptation of Wordle. A five letter word is selected at random, and two players will take turns making a guess. Each player will have information regarding their own guesses and that of the other player.
+This is a collaborative version of Wordle. A five letter word is selected at random, and two players will take turns making a guess. Each player will have information regarding their own guesses and that of the other player. The game is handled by a server that forks a subserver for every pair of two clients to start a game, and it can run multiple games at once.
 
 ### Instructions:
 
