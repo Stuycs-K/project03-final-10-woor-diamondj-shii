@@ -96,6 +96,15 @@ wrote code to handle client1 quitting before game, but need to detect quit and d
 
 ## Ian Shi
 
+### 2025-1-17 (class period)
+group debugging on segfaults and other bugs D:
+
+### 2025-1-16 (class period)
+worked with group to merge features between server-client relationship and gameplay together
+
+### 2025-1-15 (class period)
+pair programmed to allow multiple games to run simultaneously by giving each a gameID
+
 ### 2025-1-14 (at home)
 delete shm and sem key after ending game, get rid of debugging print statements for the server client handshake
 
