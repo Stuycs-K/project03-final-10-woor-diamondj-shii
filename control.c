@@ -45,6 +45,7 @@ void gameSetup(int shmkey, int semkey, int gameID) {
 
   // generate answer
   char* word = generateRandomWord();
+  printf("[subserver] game %d: answer = %s\n", gameID, word);
 
   // create shared memory and store answer
   int shmid = shmget(shmkey, 6 * sizeof(char), IPC_CREAT | 0666);

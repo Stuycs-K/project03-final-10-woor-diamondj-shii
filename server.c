@@ -66,7 +66,7 @@ int main() {
       write(to_client1, &gameID, sizeof(int));
       write(to_client2, &gameID, sizeof(int));
 
-      printf("[subserver] game setup: gameID = %d, shmkey = %d, semkey = %d\n", gameID, *shmkey, *semkey);
+      printf("[subserver] game %d: shmkey = %d, semkey = %d\n", gameID, *shmkey, *semkey);
 
       fd_set fds;
       FD_ZERO(&fds);
