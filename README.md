@@ -11,9 +11,7 @@ This is a collaborative version of Wordle. A five letter word is selected at ran
 
 ### Instructions:
 
-The user uses `make compile` to compile the program. The game is set up with `./control`, and players take turns by running `./game`.
-
-After running `./game`, information about past guesses will be displayed, and the user will be prompted to enter the next guess. To take their next turn, the user runs `./game` again.
+One terminal runs `make server` to setup the server. Two other terminals then connect by running `make client` to connect to the server. Once two players have joined, they will be shuttled into a game. Players will be prompted to enter a word when it is their turn and the game will end automatically when one of the game end conditions is met.
 
 ### BUGS beatles and other insects:
 
