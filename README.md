@@ -9,6 +9,9 @@ Julien Diamond, Ronnie Woo, Ian Shi
 
 This is a collaborative version of Wordle. A five letter word is selected at random, and two players will take turns making a guess. Each player will have information regarding their own guesses and that of the other player. The game is handled by a server that forks a subserver for every pair of two clients to start a game, and it can run multiple games at once.
 
+### Video Demo
+https://drive.google.com/file/d/1DIzp0qxOqO8zxSyAK9WI4z1b7t53r7D1/view?usp=sharing 
+
 ### Instructions:
 
 One terminal runs `make server` to setup the server. Two other terminals then connect by running `make client` to connect to the server. Once two players have joined, they will be shuttled into a game. Players will be prompted to enter a word when it is their turn and the game will end automatically when one of the game end conditions is met.
