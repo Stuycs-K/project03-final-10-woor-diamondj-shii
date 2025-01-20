@@ -94,6 +94,18 @@ pair programmed to allow multiple games to run simultaneously by giving each a g
 ### 2025-01-16 (20 minutes)
 wrote code to handle client1 quitting before game, but need to detect quit and decrement numClients for it to be put into action
 
+### 2025-01-16 (class period)
+merging + debugging mayhem
+
+### 2026-01-17 (25 minutes)
+figured out source of shmkey/semkey bug: repo missing valid_answers.txt file - breaks in generateRandomWord() in control.c
+
+### 2025-01-17 (class period)
+fixed exit game to print appropriate messages; SIGINT prints twice in the client that quit
+
+### 2025-01-19 (30 minutes)
+fixed end message printing twice with ctrl+c and removed/restructed print messages throughout
+
 ## Ian Shi
 
 ### 2025-1-17 (class period)
