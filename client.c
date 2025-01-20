@@ -5,6 +5,7 @@ int to_server = -1;
 int from_server = -1;
 int EXIT = -1;
 int endGameStatus = -1;
+int pid = -1;
 
 void handleSigInt() {
   if (to_server != -1) {
@@ -14,7 +15,7 @@ void handleSigInt() {
   if (from_server != -1) {
     close(from_server);
   }
-  printf("Game ended early.\n");
+  if (pid != 0) printf("Game ended early.\n");
   exit(0);
 }
 
@@ -45,21 +46,19 @@ int main() {
   signal(SIGUSR1, handleSigUSR1);
   signal(SIGUSR2, handleSigUSR2);
 
+  printf("waiting for 2nd player to join...\n");
+
   from_server = client_handshake( &to_server );
 
   int shmkey = -1;
   int semkey = -1;
   int gameID = -1;
 
-  printf("client reading keys\n");
-
   read(from_server, &shmkey, sizeof(shmkey));
   read(from_server, &semkey, sizeof(semkey));
   read(from_server, &gameID, sizeof(int));
 
-  printf("client received: shmkey = %d, semkey = %d\n", shmkey, semkey);
-
-  pid_t pid = fork();
+  pid = fork();
   if (pid == -1) {
     perror("client failed to fork");
     exit(1);
@@ -73,10 +72,13 @@ int main() {
   else {
     read(from_server, &endGameStatus, sizeof(endGameStatus));
     if (getppid() != 0) {
-      if (endGameStatus == -1) kill(getppid(), SIGINT);
+      if (endGameStatus == -1) {
+        kill(getppid(), SIGINT);
+      }
       if (endGameStatus == 1) kill(getppid(), SIGUSR1);
       if (endGameStatus == 2) kill(getppid(), SIGUSR2);
     }
     exit(0);
+
   }
 }
